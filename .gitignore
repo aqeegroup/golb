@@ -1,11 +1,12 @@
-node_modules
+.DS_Store
+*.log
+.vscode/
+.idea/
 
-.vscode
-
-logs/*
-
-.bra.toml
+node_modules/
+logs/
+log/
 
 blog
-
-blog.exe
+*.exe
+*.exe~
