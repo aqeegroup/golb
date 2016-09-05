@@ -11,8 +11,9 @@ type Option struct {
 var UserConfig *[]Option
 
 // LoadUserConfig 从数据库加载个人配置
-func LoadUserConfig() error {
+func LoadUserConfig() (*[]Option, error) {
 	UserConfig := &[]Option{}
 
-	return x.Find(UserConfig)
+	err := x.Find(UserConfig)
+	return UserConfig, err
 }

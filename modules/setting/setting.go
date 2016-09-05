@@ -16,6 +16,9 @@ var (
 	AppPath string
 	// LogRootPath 日志路径
 	LogRootPath string
+
+	// CookieName Cookie 名称
+	CookieName string
 	// Cfg 存储全局配置文件
 	Cfg *ini.File
 )
@@ -43,6 +46,7 @@ func NewContext() {
 	}
 
 	LogRootPath = Cfg.Section("log").Key("root_path").MustString(path.Join(workDir, "log"))
+	CookieName = Cfg.Section("cookie").Key("name").MustString("golbCookie")
 }
 
 // WorkDir 当前工作木目录

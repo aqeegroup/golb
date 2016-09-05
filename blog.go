@@ -3,48 +3,24 @@ package main
 import (
 	"html/template"
 	"log"
-	"strings"
-	"time"
 
+	"github.com/go-macaron/session"
 	"gopkg.in/macaron.v1"
 
 	"blog/controllers/admin"
 	"blog/controllers/home"
 	"blog/models"
 	"blog/modules/setting"
+	"blog/modules/utility"
 )
 
+var m *macaron.Macaron
+
 func main() {
-
-	// macaron 框架初始化
-	m := macaron.Classic()
-	m.Use(macaron.Renderers(macaron.RenderOptions{
-		Directory: "templates/themes/default",
-		Funcs: []template.FuncMap{map[string]interface{}{
-			"URLFor": m.URLFor,
-			// 考虑下这个函数该放哪里
-			"date": func(format string, timestamp int) string {
-				dateReplace := []string{
-					"Y", "2006",
-					"m", "01",
-					"d", "02",
-					"H", "15",
-					"i", "04",
-					"s", "05",
-				}
-				r := strings.NewReplacer(dateReplace...)
-				format = r.Replace(format)
-				return time.Unix(int64(timestamp), 0).Format(format)
-			},
-		}},
-	}, "admin:templates/admin"))
-
 	// 一些配置初始化
 	setup()
-
-	// 初始化路由
-	routesInit(m)
-
+	// macaron 框架初始化
+	macaronInit()
 	m.Run()
 }
 
@@ -60,8 +36,31 @@ func setup() {
 	models.LoadUserConfig()
 }
 
+func macaronInit() {
+	m = macaron.Classic()
+
+	// session 中间件
+	m.Use(session.Sessioner(session.Options{
+		Provider:       "file",
+		ProviderConfig: "runtime/sessions",
+		CookieName:     setting.CookieName,
+	}))
+
+	// 模板引擎
+	m.Use(macaron.Renderers(macaron.RenderOptions{
+		Directory: "templates/themes/default",
+		Funcs: []template.FuncMap{map[string]interface{}{
+			"URLFor": m.URLFor,     // url 生成函数
+			"date":   utility.Date, // 时间格式化函数
+		}},
+	}, "admin:templates/admin"))
+
+	// 初始化路由
+	routesInit()
+}
+
 // 初始化路由配置
-func routesInit(m *macaron.Macaron) {
+func routesInit() {
 	m.NotFound(func() string {
 		return "404"
 	})
@@ -75,6 +74,7 @@ func routesInit(m *macaron.Macaron) {
 		m.Get("/", admin.Index)
 		m.Get("/login", admin.Login).Name("login")
 		m.Post("/login", admin.DoLogin).Name("doLogin")
+		m.Get("/logout", admin.Logout).Name("logout")
 	})
 
 }
