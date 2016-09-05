@@ -1,11 +1,147 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <title>首页</title>
+  <meta charset="UTF-8">
+  <title>{{.Title}}</title>
+  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <!-- <link href="./lib/material/css/bootstrap-material-design.css" rel="stylesheet"> -->
+  <link href="/lib/material/css/ripples.css" rel="stylesheet">
+  <link href="/css/admin.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/iconfont/iconfont.css">
 </head>
 <body>
-    <a href="{{URLFor "logout"}}"><button>退出登录</button></a>
+  <div class="header-bar">
+    <nav class="navbar navbar-inverse no-radius">
+      <div class="container">
+        <!-- 手机版显示按钮 -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+           <a class="navbar-brand" target="_blank" href="{{URLFor "home"}}">{{.Username}}</a> 
+        </div>
+        <!-- 导航栏 -->
+        <div class="row">
+          <div class="collapse navbar-collapse" id="navbar">
+            <ul class="nav navbar-nav">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">控制台 <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Separated link</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">One more separated link</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">撰写 <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Separated link</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">One more separated link</a></li>
+                </ul>
+              </li>
+               
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">管理 <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Separated link</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">One more separated link</a></li>
+                </ul>
+              </li> 
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">设置 <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Separated link</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">One more separated link</a></li>
+                </ul>
+              </li> 
+            </ul>
 
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{.Username}} <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="#">个人信息</a></li>
+                  <li class="divider"></li>
+                  <li><a href="{{URLFor "logout"}}">退出</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div>
+
+      </div><!-- /.container-fluid -->
+    </nav>
+  </div>
+
+  <div class="dashboard">
+    <div class="container">
+      <div class="row">
+        <div class="title">
+          <h3>网站概要</h3>
+        </div>
+        <div class="count">
+          <ul>
+            <li>目前共有 <span>{{.PostCount}}</span> 篇文章</li>
+            <li>并有 <span>{{.CommentCount}}</span> 条评论</li>
+            <li>在 <span>{{.CateCount}}</span> 个分类中</li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="line"></div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer">
+    <span class="copyright">
+      由 golb 驱动, 版本 {{.Version}} ({{.VersionDate}})
+    </span>
+  </div>
+    
+    
+
+  <script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="http://cdn.bootcss.com/bootstrap-hover-dropdown/2.2.1/bootstrap-hover-dropdown.min.js"></script>
+  <script type="text/javascript" src="/lib/material/js/ripples.js"></script>
+  <script type="text/javascript">
+    $('.navbar [data-toggle="dropdown"]').dropdownHover({});
+    var withRipples = [
+        // ".btn:not(.btn-link)",
+        // ".card-image",
+        // ".navbar a:not(.withoutripple)",
+        // ".dropdown-menu a",
+        // ".nav-tabs a:not(.withoutripple)",
+        // ".withripple",
+        // ".pagination li:not(.active):not(.disabled) a:not(.withoutripple)",
+        ".header li",
+        ".tags-content span",
+        "#navbar a"
+      ].join(",")
+    $(withRipples).ripples();
+  </script>
 </body>
 </html>

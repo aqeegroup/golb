@@ -9,6 +9,13 @@ body {
 .clear {
   clear: both;
 }
+.no-radius {
+  border-radius: 0;
+}
+.line {
+  height: 1px;
+  background-color: #e6e6e6;
+}
 
 .wrap {
   height: 100%;
@@ -25,4 +32,26 @@ body {
 
   border: 1px solid #e6e6e6;
   border-radius: 2px;
+}
+
+/* 概要页面 */
+.count ul {
+  list-style-type: none;
+}
+.count ul li {
+  font-size: 14px;
+  color: #999;
+}
+.count ul li span {
+  font-size: 24px;
+  color: #333;
+}
+
+/* footer */
+.footer {
+  background-color: #fff;
+  height: 60px;
+  text-align: center;
+  border-top: 1px solid #e6e6e6;
+  line-height: 60px;
 }

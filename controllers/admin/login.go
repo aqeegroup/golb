@@ -11,12 +11,12 @@ import (
 
 // Login 后台管理登录页面
 func Login(ctx *macaron.Context, sess session.Store) {
-	uid := sess.Get("uid")
-	if uid != nil {
-		// 进入首页
+	if uid := sess.Get("uid"); uid != nil {
 		ctx.Redirect("/admin")
+		return
 	}
 	ctx.HTMLSet(200, "admin", "login")
+	return
 }
 
 // DoLogin 登录请求处理
@@ -58,6 +58,7 @@ func DoLogin(ctx *macaron.Context, sess session.Store) {
 
 	// cookie 写入
 	if auto == "on" {
+		// 这个时间之后要可配置
 		ctx.SetCookie(setting.CookieName, sess.ID(), 7*24*3600)
 	}
 
@@ -66,8 +67,14 @@ func DoLogin(ctx *macaron.Context, sess session.Store) {
 
 // Logout 退出登录
 func Logout(ctx *macaron.Context, sess session.Store) {
-	sess.Delete("uid")
-	sess.Delete("username")
-
+	sess.Destory(ctx)
 	ctx.Redirect("/admin/login")
+}
+
+// CheckLogin 检查登录
+func CheckLogin(ctx *macaron.Context, sess session.Store) {
+	if uid := sess.Get("uid"); uid == nil {
+		ctx.Redirect("/admin/login")
+		return
+	}
 }

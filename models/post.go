@@ -89,3 +89,8 @@ func View(id int) error {
 
 	return nil
 }
+
+// CountPost 统计全部文章数目
+func CountPost() (int64, error) {
+	return x.Count(&Post{})
+}

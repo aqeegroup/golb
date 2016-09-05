@@ -10,6 +10,7 @@ import (
 	"blog/controllers/admin"
 	"blog/controllers/home"
 	"blog/models"
+	"blog/modules/context"
 	"blog/modules/setting"
 	"blog/modules/utility"
 )
@@ -39,13 +40,6 @@ func setup() {
 func macaronInit() {
 	m = macaron.Classic()
 
-	// session 中间件
-	m.Use(session.Sessioner(session.Options{
-		Provider:       "file",
-		ProviderConfig: "runtime/sessions",
-		CookieName:     setting.CookieName,
-	}))
-
 	// 模板引擎
 	m.Use(macaron.Renderers(macaron.RenderOptions{
 		Directory: "templates/themes/default",
@@ -55,26 +49,33 @@ func macaronInit() {
 		}},
 	}, "admin:templates/admin"))
 
+	// session 中间件
+	m.Use(session.Sessioner(session.Options{
+		Provider:       "file",
+		ProviderConfig: "runtime/sessions",
+		CookieName:     setting.CookieName,
+		Gclifetime:     setting.GcLifetime,
+	}))
+
+	m.Use(context.Contexter())
+
 	// 初始化路由
 	routesInit()
 }
 
 // 初始化路由配置
 func routesInit() {
-	m.NotFound(func() string {
-		return "404"
-	})
+	m.NotFound(admin.NotFound)
 
 	// 前端页面路由
-	m.Get("/", home.Index)
+	m.Get("/", home.Index).Name("home")
 	m.Get("/post/:slug:string", home.Detail).Name("postDetail")
 
 	// 后台路由组
 	m.Group("/admin", func() {
-		m.Get("/", admin.Index)
+		m.Get("/", admin.CheckLogin, admin.Index)
 		m.Get("/login", admin.Login).Name("login")
 		m.Post("/login", admin.DoLogin).Name("doLogin")
 		m.Get("/logout", admin.Logout).Name("logout")
 	})
-
 }
