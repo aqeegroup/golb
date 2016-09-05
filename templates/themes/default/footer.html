@@ -1,0 +1,28 @@
+  <div class="footer">
+    <span class="copyright">
+      Copyright &copy; 2016 Jiayx.
+    </span>
+  </div>
+    
+    
+
+  <script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/lib/material/js/ripples.js"></script>
+  <script type="text/javascript">
+    var withRipples = [
+        // ".btn:not(.btn-link)",
+        // ".card-image",
+        // ".navbar a:not(.withoutripple)",
+        // ".dropdown-menu a",
+        // ".nav-tabs a:not(.withoutripple)",
+        // ".withripple",
+        // ".pagination li:not(.active):not(.disabled) a:not(.withoutripple)",
+        ".header li",
+        ".tags-content span",
+        "#navbar a"
+      ].join(",")
+    $(withRipples).ripples();
+  </script>
+  </body>
+</html>

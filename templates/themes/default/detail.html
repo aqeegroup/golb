@@ -1,0 +1,88 @@
+{{template "header" .}}
+  <div class="body">
+    <div class="container">
+      
+      <div class="row">
+        <div class="col-sm-8 col-xs-12">
+          <div class="post">
+            <div class="post-title">
+              <h3>{{.Post.Title}}</h3>
+            </div>
+            <div class="post-meta">
+              <span class="">
+                <i class="iconfont icon-zhongbiao"></i>
+                <span>2016-01-03</span>
+              </span>
+              <span class="">
+                <i class="iconfont icon-qianbi"></i>
+                <span>jiayx</span>
+              </span>
+              <span class="">
+                <i class="iconfont icon-mulu"></i>
+                <span>PHP</span>
+              </span>
+              <span class="">
+                <i class="iconfont icon-biaoqian"></i>
+                <span>111, 贾艳祥</span>
+              </span>
+            </div>
+            
+            <div class="post-content">{{.Post.Content}}</div>
+            <div class="post-footer">
+              <span><i class="iconfont icon-dianzandian"></i>{{.Post.Like}}</span>
+              <span><i class="iconfont icon-liulan"></i>{{.Post.View}}</span>
+            </div>          
+          </div> 
+        </div>
+        <div class="col-sm-4 col-xs-12">
+          <div class="recent">
+            <div class="recent-header">
+              最新文章
+            </div>
+            <div class="recent-post">
+              <ul>
+                <li>哈哈哈哈哈啊哈哈哈</li>
+                <li>哈哈哈哈哈啊哈哈哈</li>
+                <li>哈哈哈哈哈啊哈哈哈</li>
+                <li>哈哈哈哈哈啊哈哈哈</li>
+                <li>哈哈哈哈哈啊哈哈哈</li>
+              </ul>
+            </div>
+          </div>
+          <div class="tags">
+            <div class="tags-header">
+              标签
+            </div>
+            <div class="tags-content">
+              <span class="label label-success">Success</span>
+              <span class="label label-success">sa</span>
+              <span class="label label-success">dsds</span>
+              <span class="label label-success">Success</span>
+              <span class="label label-success">Succasdaddess</span>
+              <span class="label label-success">颠三倒四</span>
+              <span class="label label-success">asasa</span>
+            </div>
+          </div>
+          <div class="recent">
+            <div class="recent-header">
+              最新文章
+            </div>
+            <div class="recent-post">
+              <ul>
+                <li>哈哈哈哈哈啊哈哈哈</li>
+                <li>哈哈哈哈哈啊哈哈哈</li>
+                <li>哈哈哈哈哈啊哈哈哈</li>
+                <li>哈哈哈哈哈啊哈哈哈</li>
+                <li>哈哈哈哈哈啊哈哈哈</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+  </div>
+
+{{template "footer" .}}
+
+

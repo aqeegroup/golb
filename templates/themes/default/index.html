@@ -1,0 +1,101 @@
+{{template "header"}}
+  <div class="body">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 col-xs-12">
+          <div class="posts">
+            <div class="post-list">
+              <ul>
+                {{range .Posts}}
+                <li>
+                  <div><h4><a href="{{URLFor "postDetail" "slug" .Slug}}">{{.Title}}</a></h4></div>
+                  <div class="post-list-meta">
+                    <span>
+                      <i class="iconfont icon-zhongbiao"></i>
+                      <!--<span>2016-01-03 14:45</span>-->
+                      <span>{{date "Y-m-d H:i" .CreateTime}}</span>
+                    </span>
+                  </div>
+                  <div>{{.Content}}</div>
+                </li>
+                {{end}}
+              </ul>
+            </div>
+            <div class="pages">
+              <nav>
+                <ul class="pagination">
+                  <li>
+                    <a href="#" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  <li><a href="javascript:void(0)">1</a></li>
+                  <li class="active"><a href="#">2</a></li>
+                  <li><a href="#">3</a></li>
+                  <li><a href="#">4</a></li>
+                  <li><a href="#">5</a></li>
+                  <li><a href="#">...</a></li>
+                  <li><a href="#">15</a></li>
+                  <li>
+                    <a href="#" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                  <div class="clear"></div>
+                </ul>
+              </nav>
+            </div>
+          </div>
+          
+        </div>
+        <div class="col-sm-4 col-xs-12">
+          <div class="recent">
+            <div class="recent-header">
+              最新文章
+            </div>
+            <div class="recent-post">
+              <ul>
+                <li><a href="">哈哈哈哈哈啊哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈啊哈哈哈</a></li>
+                <li>哈哈哈哈哈啊哈哈哈</li>
+                <li>哈哈哈哈哈啊哈哈哈哈哈</li>
+                <li>哈哈哈哈哈啊哈哈哈</li>
+                <li>哈哈哈哈哈啊哈哈哈啊哈哈哈</li>
+              </ul>
+            </div>
+          </div>
+          <div class="tags">
+            <div class="tags-header">
+              标签
+            </div>
+            <div class="tags-content">
+              <span class="label label-default">Success</span>
+              <span class="label label-success">sa</span>
+              <span class="label label-success">dsds</span>
+              <span class="label label-warning">Success</span>
+              <span class="label label-primary">Succasdaddess</span>
+              <span class="label label-success">颠三倒四</span>
+              <span class="label label-success">丰富的</span>
+            </div>
+          </div>
+          <div class="recent">
+            <div class="recent-header">
+              Link
+            </div>
+            <div class="recent-post">
+              <ul>
+                <li><a href="">哈哈哈哈哈啊哈哈哈</a></li>
+                <li>哈哈哈哈哈啊哈哈哈</li>
+                <li>哈哈哈哈哈啊哈哈哈</li>
+                <li>哈哈哈哈哈啊哈哈哈</li>
+                <li>哈哈哈哈哈啊哈哈哈</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+  </div>
+
+{{template "footer" .}}
+

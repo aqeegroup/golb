@@ -1,0 +1,28 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  color: #333;
+  background-color: #eee;
+}
+.clear {
+  clear: both;
+}
+
+.wrap {
+  height: 100%;
+  width: 100%;
+}
+.wrap h3 {
+  text-align: center;
+  padding: 10px 0;
+}
+.login {
+
+  padding: 20px;
+  background-color: #fff;
+
+  border: 1px solid #e6e6e6;
+  border-radius: 2px;
+}
