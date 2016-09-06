@@ -16,6 +16,8 @@ func Index(ctx *context.Context, sess session.Store) {
 	}
 
 	postCount, err := models.CountPost()
+	// postCount, err := models.CountCate()
+	// postCount, err := models.CountComment()
 	if err != nil {
 		ctx.Handle(500, "Internal Server Error", err)
 		return
@@ -23,6 +25,7 @@ func Index(ctx *context.Context, sess session.Store) {
 
 	ctx.Data["Uid"] = uid
 	ctx.Data["Username"] = sess.Get("username")
+	ctx.Data["Title"] = "网站概要"
 	ctx.Data["PostCount"] = postCount
 	ctx.HTMLSet(200, "admin", "home")
 }

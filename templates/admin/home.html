@@ -99,18 +99,47 @@
     <div class="container">
       <div class="row">
         <div class="title">
-          <h3>网站概要</h3>
+          <div class="col-sm-12">
+            <h3>网站概要</h3>
+          </div>
         </div>
-        <div class="count">
-          <ul>
+        <div class="col-sm-3">
+          <div class="count">
+            <p>文章</p>
+            <h3>{{.PostCount}}</h3>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="count">
+            <p>评论</p>
+            <h3>{{.PostCount}}</h3>
+          </div>
+          
+        </div>
+        <div class="col-sm-3">
+          <div class="count">
+            <p>分类</p>
+            <h3>{{.PostCount}}</h3>
+          </div>
+          
+        </div>
+          <!--<ul>
             <li>目前共有 <span>{{.PostCount}}</span> 篇文章</li>
             <li>并有 <span>{{.CommentCount}}</span> 条评论</li>
             <li>在 <span>{{.CateCount}}</span> 个分类中</li>
-          </ul>
-        </div>
+          </ul>-->
       </div>
       <div class="row">
         <div class="line"></div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="latest">
+            
+          </div>
+        </div>
       </div>
     </div>
   </div>

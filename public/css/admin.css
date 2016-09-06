@@ -35,6 +35,16 @@ body {
 }
 
 /* 概要页面 */
+.count {
+  background-color: #fff;
+  text-align: center;
+  margin-top: 20px;
+  padding: 20px; 
+}
+.count p {
+  color: #999;
+  font-size: 14px;
+}
 .count ul {
   list-style-type: none;
 }
@@ -49,9 +59,13 @@ body {
 
 /* footer */
 .footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
   background-color: #fff;
   height: 60px;
   text-align: center;
   border-top: 1px solid #e6e6e6;
   line-height: 60px;
+  
 }
