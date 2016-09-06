@@ -7,13 +7,34 @@ type Option struct {
 	Value  string
 }
 
-// UserConfig 用户配置
-var UserConfig *[]Option
+// UserOptions 用户配置
+type UserOptions struct {
+	UserOptions *[]Option
+	OptionMap   map[string]string
+}
 
-// LoadUserConfig 从数据库加载个人配置
-func LoadUserConfig() (*[]Option, error) {
-	UserConfig := &[]Option{}
+// Options 用户配置
+var Options *UserOptions
 
-	err := x.Find(UserConfig)
-	return UserConfig, err
+// LoadOptions 从数据库加载个人配置
+func LoadOptions() error {
+	Options = &UserOptions{}
+	Options.UserOptions = &[]Option{}
+	Options.OptionMap = make(map[string]string)
+
+	Options.OptionMap["theme"] = "templates/themes/default"
+
+	// return x.Find(UserConfig)
+
+	return nil
+}
+
+// Get 获取配置
+func (o *UserOptions) Get(key string) string {
+
+	if v, ok := o.OptionMap[key]; ok {
+		return v
+	}
+
+	return ""
 }

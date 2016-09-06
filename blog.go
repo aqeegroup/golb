@@ -2,7 +2,6 @@ package main
 
 import (
 	"html/template"
-	"log"
 
 	"github.com/go-macaron/session"
 	"gopkg.in/macaron.v1"
@@ -21,7 +20,7 @@ func main() {
 	// 一些配置初始化
 	setup()
 	// macaron 框架初始化
-	macaronInit()
+	newMacaron()
 	m.Run()
 }
 
@@ -31,18 +30,21 @@ func setup() {
 
 	err := models.Init()
 	if err != nil {
-		log.Println("数据库初始化失败: ", err)
+		panic("数据库初始化失败: " + err.Error())
 	}
 
-	models.LoadUserConfig()
+	if err := models.LoadOptions(); err != nil {
+		panic("用户配置加载失败: " + err.Error())
+	}
 }
 
-func macaronInit() {
+func newMacaron() {
 	m = macaron.Classic()
 
 	// 模板引擎
 	m.Use(macaron.Renderers(macaron.RenderOptions{
-		Directory: "templates/themes/default",
+		// 这个配置将来要从数据库取
+		Directory: models.Options.Get("theme"),
 		Funcs: []template.FuncMap{map[string]interface{}{
 			"URLFor": m.URLFor,     // url 生成函数
 			"date":   utility.Date, // 时间格式化函数

@@ -8,7 +8,9 @@ import (
 	"github.com/go-macaron/session"
 	"gopkg.in/macaron.v1"
 
+	"blog/models"
 	"blog/modules/setting"
+	"blog/modules/utility"
 )
 
 // Context 自定义的 Context
@@ -53,23 +55,21 @@ func (ctx *Context) Handle(status int, title string, err error) {
 		ctx.Data["Title"] = "Internal Server Error"
 		ctx.Data["ErrMsg"] = "Internal Server Error."
 	}
-	// ctx.HasTemplate("")
+	if ctx.HasTemplate("error") {
+		ctx.HTML(status, "error")
+		return
+	}
 	ctx.HTMLSet(status, "admin", "error")
 }
 
-func (ctx *Context) HasTemplate(t ...string) bool {
-	set := ""
-	name := ""
-	switch len(t) {
-	case 1:
-		set = "/"
-		name = t[0]
-	default:
-		set = "/" + t[0] + "/"
-		name = t[1]
-	}
-	tPath := setting.AppPath + "templates" + set + name
-	fmt.Println(tPath)
-	return true
+// HasTemplate 模板文件是否存在
+func (ctx *Context) HasTemplate(t string) bool {
 
+	theme := models.Options.Get("theme")
+	tPath := fmt.Sprintf("%s/%s/%s", setting.AppPath, theme, t)
+	if utility.FileExist(tPath) {
+		return true
+	}
+
+	return false
 }

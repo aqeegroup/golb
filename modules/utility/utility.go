@@ -3,6 +3,7 @@ package utility
 import (
 	"crypto/md5"
 	"encoding/hex"
+	"os"
 	"strings"
 	"time"
 )
@@ -29,4 +30,11 @@ func Date(format string, timestamp int) string {
 	r := strings.NewReplacer(dateReplace...)
 	format = r.Replace(format)
 	return time.Unix(int64(timestamp), 0).Format(format)
+}
+
+// FileExist 检查文件是否存在
+func FileExist(filename string) bool {
+	_, err := os.Stat(filename)
+
+	return err == nil || os.IsExist(err)
 }
