@@ -79,5 +79,11 @@ func routesInit() {
 		m.Get("/login", admin.Login).Name("login")
 		m.Post("/login", admin.DoLogin).Name("doLogin")
 		m.Get("/logout", admin.Logout).Name("logout")
+
+		m.Group("/post", func() {
+			m.Get("/", admin.WritePage).Name("writePost")
+			m.Post("/", admin.PostSubmit)
+		})
+
 	})
 }

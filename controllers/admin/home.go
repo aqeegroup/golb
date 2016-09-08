@@ -10,11 +10,6 @@ import (
 // Index 后台管理首页
 func Index(ctx *context.Context, sess session.Store) {
 	uid := sess.Get("uid")
-
-	if uid == nil {
-		ctx.Redirect("/admin/login")
-	}
-
 	postCount, err := models.CountPost()
 	// postCount, err := models.CountCate()
 	// postCount, err := models.CountComment()
@@ -27,7 +22,7 @@ func Index(ctx *context.Context, sess session.Store) {
 	ctx.Data["Username"] = sess.Get("username")
 	ctx.Data["Title"] = "网站概要"
 	ctx.Data["PostCount"] = postCount
-	ctx.HTMLSet(200, "admin", "home")
+	ctx.HTMLSet(200, "admin", "index")
 }
 
 // NotFound 404

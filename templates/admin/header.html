@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>首页</title>
+  <link href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
+  <link href="http://cdn.bootcss.com/bootstrap-datetimepicker/4.15.35/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./css/index.css">
+  <link rel="stylesheet" href="./css/write.css">
+  <link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_1473326481_57299.css">
+  <script>
+    var HIDE_SIDE_BAR = {{.HideSidebar}}
+  </script>
+</head>
+<body class="">
+  <!--[if lt IE 9]>
+    <div class="message error browsehappy" role="dialog">当前网页 <strong>不支持</strong> 你正在使用的浏览器. 为了正常的访问, 请 <a href="http://browsehappy.com/">升级你的浏览器</a>.</div>
+  <![endif]-->
+  <header>
+    <nav class="light-blue">
+      <div class="nav-wrapper">
+        <div id="sidebar-control" class="left">
+          <div class="line-wrap">
+            <div class="line top"></div>
+            <div class="line center"></div>
+            <div class="line bottom"></div>
+          </div>
+        </div>
+        
+        <a href="/admin" class="logo left">GOLB</a>
+        <div class="options right">
+          <ul>
+            <li><a href="{{URLFor "writePost"}}"><i class="iconfont icon-zhuanxie"></i>撰写</a></li>
+            <li><a href="collapsible.html"><i class="iconfont icon-gerenxinxi"></i>Jiayx</a></li>
+          </ul>
+        </div>
+        
+        <div class="clearfix"></div>
+      </div>
+    </nav>
+  </header>
+  <div class="main">
+    <div id="sidebar" class="sidebar">
+      <ul class="main-menu">
+        <!-- <li class="active">
+          <a href=""><i class="iconfont icon-shouye"></i>首页</a>
+        </li> -->
+        <li class="sub-menu active toggle">
+          <a><i class="iconfont icon-console"></i>控制台</a>
+          <ul>
+            <li class="active"><a href="">概要</a></li>
+            <li><a href="">外观</a></li>
+          </ul>
+        </li>
+        <li class="sub-menu">
+          <a><i class="iconfont icon-guanli"></i>管理</a>
+          <ul>
+            <li class=""><a href="">文章</a></li>
+            <li><a href="">独立页面</a></li>
+            <li><a href="">评论</a></li>
+            <li><a href="">分类</a></li>
+            <li><a href="">标签</a></li>
+            <li><a href="">文件</a></li>
+            <li><a href="">用户</a></li>
+            <li><a href="">友情链接</a></li>
+          </ul>
+        </li>
+        <li class="sub-menu">
+          <a><i class="iconfont icon-shezhi"></i>设置</a>
+          <ul>
+            <li class="active"><a href="">基本</a></li>
+            <li><a href="">评论</a></li>
+            <li><a href="">阅读</a></li>
+            <li><a href="">永久链接</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>

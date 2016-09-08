@@ -1,75 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>首页</title>
-  <link href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
-  <link rel="stylesheet" href="./css/index.css">
-  <link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_1473238551_7411182.css">
-</head>
-<body>
-  <header>
-    <nav class="light-blue">
-      <div class="nav-wrapper">
-        <div id="sidebar-control" class="left">
-          <div class="line-wrap">
-            <div class="line top"></div>
-            <div class="line center"></div>
-            <div class="line bottom"></div>
-          </div>
-        </div>
-        
-        <a href="#" class="logo left">Logo</a>
-        <div class="options right">
-          <ul>
-            <li><a href="collapsible.html"><i class="iconfont icon-zhuanxie"></i>撰写</a></li>
-            <li><a href="collapsible.html"><i class="iconfont icon-gerenxinxi"></i>Jiayx</a></li>
-          </ul>
-        </div>
-        
-        <div class="clearfix"></div>
-      </div>
-    </nav>
-  </header>
-  <div class="main">
-    <div id="sidebar" class="sidebar">
-      <ul class="main-menu">
-        <!-- <li class="active">
-          <a href=""><i class="iconfont icon-shouye"></i>首页</a>
-        </li> -->
-        <li class="sub-menu active toggle">
-          <a><i class="iconfont icon-console"></i>控制台</a>
-          <ul>
-            <li class="active"><a href="">概要</a></li>
-            <li><a href="">外观</a></li>
-          </ul>
-        </li>
-        <li class="sub-menu">
-          <a><i class="iconfont icon-guanli"></i>管理</a>
-          <ul>
-            <li class=""><a href="">文章</a></li>
-            <li><a href="">独立页面</a></li>
-            <li><a href="">评论</a></li>
-            <li><a href="">分类</a></li>
-            <li><a href="">标签</a></li>
-            <li><a href="">文件</a></li>
-            <li><a href="">用户</a></li>
-            <li><a href="">友情链接</a></li>
-          </ul>
-        </li>
-        <li class="sub-menu">
-          <a><i class="iconfont icon-shezhi"></i>设置</a>
-          <ul>
-            <li class="active"><a href="">基本</a></li>
-            <li><a href="">评论</a></li>
-            <li><a href="">阅读</a></li>
-            <li><a href="">永久链接</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
+{{template "header"}}
 
     <div class="content">
       <div class="container-fluid">
@@ -150,7 +79,7 @@
     
   </div>
   <script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
-  <script src="./js/jquery.nicescroll.min.js"></script>
+  <script src="/lib/jquery.nicescroll.min.js"></script>
   <script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.js"></script>
   <script type="text/javascript">
     $(document).ready(function () {

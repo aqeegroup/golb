@@ -6,9 +6,10 @@ import (
 
 // Post 文章
 type Post struct {
-	ID           int `xorm:"pk autoincr"`
-	Title        string
-	Slug         string `xorm:"varchar(100) index unique"`
+	ID    int `xorm:"pk autoincr"`
+	Title string
+	// Slug         string `xorm:"varchar(100) index unique"`
+	Slug         string `xorm:"-"`
 	Content      string `xorm:"text"`
 	AuthorID     int
 	Type         string `xorm:"varchar(20)"` // post post_draft
@@ -23,9 +24,9 @@ type Post struct {
 	metas []Meta `xorm:"-"`
 }
 
-// CreatePost 创建文章
-func CreatePost(p *Post) {
-	x.Insert(p)
+// Create 创建文章
+func (p *Post) Create() (int64, error) {
+	return x.InsertOne(p)
 }
 
 // FindPostBySlug 根据缩略名查找文章
@@ -39,7 +40,8 @@ func FindPostBySlug(slug string) (*Post, error) {
 	if !has {
 		return nil, fmt.Errorf("没有找到这篇文章: %s", slug)
 	}
-
+	post.Slug = string(post.ID)
+	fmt.Println(post.Slug)
 	return post, err
 }
 

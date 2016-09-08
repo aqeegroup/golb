@@ -14,6 +14,14 @@ import (
 	"blog/modules/setting"
 )
 
+// RespJSON JSON 返回
+type RespJSON struct {
+	Code     int                    `json:"code"`
+	Msg      string                 `json:"msg"`
+	Redirect string                 `json:"redirect"`
+	Data     map[string]interface{} `json:"data"`
+}
+
 var (
 	x      *xorm.Engine
 	tables []interface{}
