@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>首页</title>
+  <link href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="./css/index.css">
+  <link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_1473238551_7411182.css">
+</head>
+<body>
+  <header>
+    <nav class="light-blue">
+      <div class="nav-wrapper">
+        <div id="sidebar-control" class="left">
+          <div class="line-wrap">
+            <div class="line top"></div>
+            <div class="line center"></div>
+            <div class="line bottom"></div>
+          </div>
+        </div>
+        
+        <a href="#" class="logo left">Logo</a>
+        <div class="options right">
+          <ul>
+            <li><a href="collapsible.html"><i class="iconfont icon-zhuanxie"></i>撰写</a></li>
+            <li><a href="collapsible.html"><i class="iconfont icon-gerenxinxi"></i>Jiayx</a></li>
+          </ul>
+        </div>
+        
+        <div class="clearfix"></div>
+      </div>
+    </nav>
+  </header>
+  <div class="main">
+    <div id="sidebar" class="sidebar">
+      <ul class="main-menu">
+        <!-- <li class="active">
+          <a href=""><i class="iconfont icon-shouye"></i>首页</a>
+        </li> -->
+        <li class="sub-menu active toggle">
+          <a><i class="iconfont icon-console"></i>控制台</a>
+          <ul>
+            <li class="active"><a href="">概要</a></li>
+            <li><a href="">外观</a></li>
+          </ul>
+        </li>
+        <li class="sub-menu">
+          <a><i class="iconfont icon-guanli"></i>管理</a>
+          <ul>
+            <li class=""><a href="">文章</a></li>
+            <li><a href="">独立页面</a></li>
+            <li><a href="">评论</a></li>
+            <li><a href="">分类</a></li>
+            <li><a href="">标签</a></li>
+            <li><a href="">文件</a></li>
+            <li><a href="">用户</a></li>
+            <li><a href="">友情链接</a></li>
+          </ul>
+        </li>
+        <li class="sub-menu">
+          <a><i class="iconfont icon-shezhi"></i>设置</a>
+          <ul>
+            <li class="active"><a href="">基本</a></li>
+            <li><a href="">评论</a></li>
+            <li><a href="">阅读</a></li>
+            <li><a href="">永久链接</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="content">
+      <div class="container-fluid">
+
+        <div class="block-header">
+          <h3>网站概要</h3>
+
+          <!-- 数据统计 -->
+          <div class="row">
+            <div class="col-sm-4">
+              <a href="">
+                <div class="count-board">
+                  <p>文章</p>
+                  <h3>23</h3>
+                </div>
+              </a>
+            </div>
+            <div class="col-sm-4">
+              <a href="">
+                <div class="count-board">
+                  <p>评论</p>
+                  <h3>232</h3>                
+                </div>
+              </a>
+            </div>
+            <div class="col-sm-4">
+              <a href="">
+                <div class="count-board">
+                  <p>分类</p>
+                  <h3>7</h3>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- 最近动态 -->
+          <div class="row">
+            <div class="col-sm-6 col-md-6">
+              <!-- 最近文章 -->
+              <div class="latest">
+                <h4>近期文章</h4>
+                <table class="table">
+                  <tr><td>8.15</td><td>文章文章文章文章文章文章</td></tr>
+                  <tr><td>8.15</td><td>文章文章文章文章文章文章</td></tr>
+                  <tr><td>8.15</td><td>文章文章文章文章文章文章</td></tr>
+                  <tr><td>8.15</td><td>文章文章文章章</td></tr>
+                  <tr><td>8.15</td><td>文章文章文章章</td></tr>
+                  <tr><td>8.15</td><td>文章文章文章章</td></tr>
+                </table>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-6">
+              <!-- 最近评论 -->
+              <div class="latest">
+                <h4>最新评论</h4>
+                <table class="table">
+                  <tr><td>8.15</td><td>评论评论评论评论评论评论</td></tr>
+                  <tr><td>8.15</td><td>评论评论评论评论评论评论</td></tr>
+                  <tr><td>8.15</td><td>评论评论评论评论评论评论</td></tr>
+                  <tr><td>8.15</td><td>评论评论评论评论评论评论</td></tr>
+                  <tr><td>8.15</td><td>评论评论评论评论评论评论</td></tr>
+                  <tr><td>8.15</td><td>评论评论评论评论评论评论</td></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+    <footer>
+      <div class="footer">
+        Copyright © 2016 GOLB.
+      </div>
+    </footer>
+
+    
+  </div>
+  <script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+  <script src="./js/jquery.nicescroll.min.js"></script>
+  <script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      
+      // content 重重新计算高度
+      contentResize();
+
+      // 模拟滚动条
+      $('#sidebar').niceScroll({cursorcolor: 'rgba(0,0,0,0.3)'});
+      // 点击菜单按钮侧边栏
+      $('#sidebar-control').click(function () {
+        $('body').toggleClass('sidebar-toggle');
+      });
+      $('.sub-menu').click(function () {
+        var ul = $(this).children('ul');
+        var height = ul.height();
+        console.log(height);
+        if (ul.css('display') == 'none') {
+          $(this).addClass('toggle');
+          ul.css({display: 'block', height: 0});
+          ul.animate({'height': height}, 300);
+
+        } else {
+          $(this).removeClass('toggle');
+          ul.animate({'height': 0}, 300, function () {
+            ul.css({display: 'none', height: height});
+          });
+        }
+      });
+
+      // 算了吧
+      // $(window).on('resize', function () {
+      //   // contentResize();
+      // });
+
+    })
+
+    var contentResize = function () {
+      var wh = $(window).height();
+      var h = $('.content').height();
+      var th = wh - 58 - 70 - 20;
+      if (h < th) {
+        $('.content').css({'min-height': th});
+      }
+    }
+  </script>
+</body>
+</html>

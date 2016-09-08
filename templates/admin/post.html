@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>首页</title>
+  <link href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
+  <link href="http://cdn.bootcss.com/bootstrap-datetimepicker/4.15.35/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./css/index.css">
+  <link rel="stylesheet" href="./css/write.css">
+  <link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_1473326481_57299.css">
+</head>
+<body class="">
+  <!--[if lt IE 9]>
+    <div class="message error browsehappy" role="dialog">当前网页 <strong>不支持</strong> 你正在使用的浏览器. 为了正常的访问, 请 <a href="http://browsehappy.com/">升级你的浏览器</a>.</div>
+  <![endif]-->
+  <header>
+    <nav class="light-blue">
+      <div class="nav-wrapper">
+        <div id="sidebar-control" class="left">
+          <div class="line-wrap">
+            <div class="line top"></div>
+            <div class="line center"></div>
+            <div class="line bottom"></div>
+          </div>
+        </div>
+        
+        <a href="#" class="logo left">GOLB</a>
+        <div class="options right">
+          <ul>
+            <li><a href="collapsible.html"><i class="iconfont icon-zhuanxie"></i>撰写</a></li>
+            <li><a href="collapsible.html"><i class="iconfont icon-gerenxinxi"></i>Jiayx</a></li>
+          </ul>
+        </div>
+        
+        <div class="clearfix"></div>
+      </div>
+    </nav>
+  </header>
+  <div class="main">
+    <div id="sidebar" class="sidebar">
+      <ul class="main-menu">
+        <!-- <li class="active">
+          <a href=""><i class="iconfont icon-shouye"></i>首页</a>
+        </li> -->
+        <li class="sub-menu active toggle">
+          <a><i class="iconfont icon-console"></i>控制台</a>
+          <ul>
+            <li class="active"><a href="">概要</a></li>
+            <li><a href="">外观</a></li>
+          </ul>
+        </li>
+        <li class="sub-menu">
+          <a><i class="iconfont icon-guanli"></i>管理</a>
+          <ul>
+            <li class=""><a href="">文章</a></li>
+            <li><a href="">独立页面</a></li>
+            <li><a href="">评论</a></li>
+            <li><a href="">分类</a></li>
+            <li><a href="">标签</a></li>
+            <li><a href="">文件</a></li>
+            <li><a href="">用户</a></li>
+            <li><a href="">友情链接</a></li>
+          </ul>
+        </li>
+        <li class="sub-menu">
+          <a><i class="iconfont icon-shezhi"></i>设置</a>
+          <ul>
+            <li class="active"><a href="">基本</a></li>
+            <li><a href="">评论</a></li>
+            <li><a href="">阅读</a></li>
+            <li><a href="">永久链接</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="content">
+      <div class="container-fluid">
+        <div class="block-header">
+          <h3>撰写新文章</h3>
+          <div class="row">
+            <div class="col-md-9">
+              <div class="write-field">
+                <form role="form">
+                  <div class="form-group">
+                    <input type="email" class="form-control radius-0" id="post-title" placeholder="请输入标题">
+                  </div>
+                  <div class="form-group">
+                    <textarea class="form-control radius-0" rows="20" id="post-content" placeholder="这里写内容"></textarea>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <p id="auto-submit-info">自动保存于 2016-09-08 12:34</p>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group submit-button clearfix">
+                        <button id="draft" class="btn btn-default radius-0">保存草稿</button>
+                        <button id="publish" class="btn btn-primary radius-0">发布文章</button>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </form>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="post-options">
+                <ul class="clearfix">
+                  <li class="active" data-tab="post-option">选项</li>
+                  <li data-tab="post-attachment">附件</li>
+                </ul>
+                <div id="post-option-cont">
+                  <h5>发布日期</h5>
+                  <div class="input-group date" id="datetimepicker">
+                    <input type="text" class="form-control radius-0" name="create_time" />
+                    <span class="input-group-addon radius-0">
+                      <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                  </div>
+                  <h5>分类</h5>
+                  <div class="cate">
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" value="">分类1
+                      </label>
+                      <ul>
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" value="">子分类
+                          </label>
+                        </div>
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" value="">子分类
+                          </label>
+                        </div>
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" value="">子分类
+                          </label>
+                        </div>
+                      </ul>
+                    </div>
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" value="">分类2
+                      </label>
+                    </div>
+                  </div>
+                  <h5>选择已有标签</h5>
+                  <div class="tags-content">
+                    <span class="label active">Success <i class="iconfont icon-duigou"></i></span>
+                    <span class="label">sa <i class="iconfont icon-duigou"></i></span>
+                    <span class="label">dsds <i class="iconfont icon-duigou"></i></span>
+                    <span class="label">Success <i class="iconfont icon-duigou"></i></span>
+                    <span class="label">Succasdaddess <i class="iconfont icon-duigou"></i></span>
+                    <span class="label active">颠三倒四 <i class="iconfont icon-duigou"></i></span>
+                    <span class="label">丰富的 <i class="iconfont icon-duigou"></i></span>
+                  </div>
+                  <h5>新增标签</h5>
+                  <div class="post-tags">
+                    <ul>
+                      <li class="tag-input-li" style="margin: 0;">
+                        <input id="tag-input" type="text" placeholder="请输入标签名按回车确定">
+                      </li>
+                      
+                    </ul>
+                  </div>
+
+                </div>
+                <div id="post-attachment-cont" style="display: none;">
+                  <div class="upload-area">
+                  拖拽文件到这里上传
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <div class="footer">
+        Copyright © 2016 GOLB.
+      </div>
+    </footer>
+  </div>
+  <script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+  <script src="./js/jquery.nicescroll.min.js"></script>
+  <script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.js"></script>
+  <script src="http://cdn.bootcss.com/moment.js/2.14.1/moment.min.js"></script>
+  <script src="http://cdn.bootcss.com/moment.js/2.14.1/locale/zh-cn.js"></script>
+  <script src="http://cdn.bootcss.com/bootstrap-datetimepicker/4.15.35/js/bootstrap-datetimepicker.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+
+      // 如果是写文章页面 暂时隐藏
+      hideBar();
+      // content 重重新计算高度
+      contentResize();
+
+      // 日期选择插件
+      $('#datetimepicker').datetimepicker({});
+
+      // 模拟滚动条
+      $('#sidebar').niceScroll({cursorcolor: 'rgba(0,0,0,0.3)'});
+
+      // 点击菜单按钮侧边栏
+      $('#sidebar-control').click(function () {
+        $('body').toggleClass('sidebar-toggle');
+      });
+      $('.sub-menu').click(function () {
+        var ul = $(this).children('ul');
+        var height = ul.height();
+        console.log(height);
+        if (ul.css('display') == 'none') {
+          $(this).addClass('toggle');
+          ul.css({display: 'block', height: 0});
+          ul.animate({'height': height}, 300);
+
+        } else {
+          $(this).removeClass('toggle');
+          ul.animate({'height': 0}, 300, function () {
+            ul.css({display: 'none', height: height});
+          });
+        }
+      });
+
+      // 文章右侧选项切换
+      $('.post-options>ul>li').click(function () {
+        if ($(this).hasClass('active')) {
+          return;
+        }
+        $(this).siblings().removeClass('active');
+        $(this).addClass('active');
+
+        $('#post-option-cont').toggle();
+        $('#post-attachment-cont').toggle();
+      });
+
+      $('.tags-content>span').click(function () {
+        if ($(this).hasClass('active')) {
+          $(this).removeClass('active');
+        } else {
+          $(this).addClass('active');
+        }
+      });
+
+      // 标签X掉
+      $('.post-tags>ul').on('click', 'li>span', function () {
+        $(this).parent('.tag-li').remove();
+      });
+
+      $('#tag-input').on('keyup', function (e) {
+        var str = $(this).val().trim();
+        if (str.length == 0) {
+          return;
+        }
+        if (e.keyCode == 13) {
+          var temp = '<li class="tag-li">'+str+' <span>x</span></li>';
+          $(this).parent().before(temp);
+          $(this).val('');
+        }
+      });
+
+      // tag 输入框事件监听
+      // $('#tag-input').on('keyup', function () {
+      //   var str = $(this).val().trim();
+      //   if (str.length == 0) {
+      //     $('#dropdown').html('<li>请输入标签名</li>');
+      //     return;
+      //   }
+      //   var tags = ['aa', 'aaa', 'sba', 'dfgs'];
+      //   var have = [];
+      //   for(var i in tags) {
+      //     if (tags[i].indexOf(str) > -1) {
+      //       var temp = '<li>'+tags[i]+'</li>';
+      //       have.push(temp);
+      //     }
+      //   }
+      //   if (have.length > 0) {
+      //     $('#dropdown').html(have.join('\n'));          
+      //   } else {
+      //     $('#dropdown').html('<li>'+str+'</li>')
+      //   }
+      // });
+
+      // tag 下拉窗口的点击事件
+      // $('#dropdown>li').click(function () {
+      //   var text = $(this).text();
+      //   console.log(text);
+      //   var li = '<li class="tag-li clearfix">'+text+' <span>x</span></li>';
+      //   $('.post-tags>ul').append(li);
+        
+
+      //   // $('#tag-input').val(text);
+      // });
+
+    });
+
+    var contentResize = function () {
+      var wh = $(window).height();
+      var h = $('.content').height();
+      var th = wh - 58 - 70 - 20;
+      if (h < th) {
+        $('.content').css({'min-height': th});
+      }
+    }
+
+    var hideBar = function () {
+      $('body').addClass('hide-sidebar');
+    }
+
+  </script>
+</body>
+</html>

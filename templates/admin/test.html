@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <meta charset="utf-8">
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title></title>
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="./css/index.css">
+  <link rel="stylesheet" href="./css/write.css">
+  <link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_1473238551_7411182.css">
+  <link href="http://cdn.bootcss.com/bootstrap-datetimepicker/4.15.35/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+
+</head>
+<body>
+
+    <div class="container">
+        <div class="col-md-3">
+              <div class="post-options">
+                <ul class="clearfix">
+                  <li class="active" data-tab="post-option">选项</li>
+                  <li data-tab="post-attachment">附件</li>
+                </ul>
+                <div id="post-option-cont">
+                  <div class="input-group date" id="datetimepicker">
+                    <input type="text" class="form-control radius-0" name="create_time" />
+                    <span class="input-group-addon radius-0">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                  </div>
+                </div>
+                <div id="post-attachment-cont" style="display: none;">
+                  <div class="upload-area">
+                  拖拽文件到这里上传
+                  </div>
+                </div>
+              </div>
+    </div>
+    
+</body>
+  <script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+  <script src="http://cdn.bootcss.com/moment.js/2.14.1/moment.min.js"></script>
+
+  <script src="http://cdn.bootcss.com/bootstrap-datetimepicker/4.15.35/js/bootstrap-datetimepicker.min.js"></script>
+
+    <script type="text/javascript">
+        window.onload = function () {
+              $('#datetimepicker').datetimepicker();
+
+        }
+    </script>
+</html>
