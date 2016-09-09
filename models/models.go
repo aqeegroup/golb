@@ -14,12 +14,17 @@ import (
 	"blog/modules/setting"
 )
 
-// RespJSON JSON 返回
+// RespJSON 返回 json
 type RespJSON struct {
-	Code     int                    `json:"code"`
-	Msg      string                 `json:"msg"`
-	Redirect string                 `json:"redirect"`
-	Data     map[string]interface{} `json:"data"`
+	Code     int    `json:"code"`
+	Msg      string `json:"msg"`
+	Redirect string `json:"redirect"`
+}
+
+// RespWithData 返回 json 并且包含data
+type RespWithData struct {
+	RespJSON
+	Data map[string]interface{} `json:"data"`
 }
 
 var (

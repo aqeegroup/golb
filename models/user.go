@@ -2,11 +2,11 @@ package models
 
 // User 用户
 type User struct {
-	ID         int    `xorm:"pk autoincr"`
+	ID         int64  `xorm:"pk autoincr"`
 	Username   string `xorm:"varchar(50)"`
 	Password   string `xorm:"varchar(32)"`
-	CreateTime int
-	UpdateTime int `xorm:"updated"`
+	CreateTime int64
+	UpdateTime int64 `xorm:"updated"`
 	Count      int
 	LastIP     string `xorm:"varchar(50)"`
 }

@@ -1,32 +1,53 @@
 package models
 
-import (
-	"fmt"
-)
+import "fmt"
 
 // Post 文章
 type Post struct {
-	ID    int `xorm:"pk autoincr"`
-	Title string
-	// Slug         string `xorm:"varchar(100) index unique"`
-	Slug         string `xorm:"-"`
+	ID           int64 `xorm:"pk autoincr"`
+	Title        string
+	Slug         string `xorm:"varchar(100) index"`
 	Content      string `xorm:"text"`
-	AuthorID     int
+	AuthorID     int64
 	Type         string `xorm:"varchar(20)"` // post post_draft
 	Status       string `xorm:"varchar(31)"` // 公开publish 隐藏hidden 私密private
 	Password     string `xorm:"varchar(32)"`
 	AllowComment string
 	View         int `xorm:"notnull default(0)"`
 	Like         int `xorm:"notnull default(0)"`
-	CreateTime   int
-	UpdateTime   int `xorm:"updated"`
+	CreateTime   int64
+	UpdateTime   int64 `xorm:"updated"`
+	PublishTime  int64 `xorm:"index"`
 
 	metas []Meta `xorm:"-"`
 }
 
 // Create 创建文章
 func (p *Post) Create() (int64, error) {
-	return x.InsertOne(p)
+
+	s := x.NewSession()
+	defer s.Close()
+	s.Begin()
+
+	id, err := x.InsertOne(p)
+	if err != nil {
+		s.Rollback()
+		return 0, err
+	}
+	if len(p.Slug) == 0 {
+		p.Slug = string(id)
+		id, err = x.Update(p)
+		if err != nil {
+			s.Rollback()
+			return 0, err
+		}
+	}
+
+	err = s.Commit()
+	if err != nil {
+		return 0, err
+	}
+	return id, nil
 }
 
 // FindPostBySlug 根据缩略名查找文章
@@ -55,20 +76,20 @@ func FindPosts(page, limit int) (*[]Post, error) {
 	err := x.Where("status=?", "publish").
 		And("type=?", "post").
 		Limit(limit, offset).
-		Desc("id").
+		Desc("publish_time").
 		Find(posts)
 
 	return posts, err
 }
 
-// RecentPosts 最近文章 - 这个并没有什么卵用
+// RecentPosts 最近文章
 func RecentPosts(limit int) (*[]Post, error) {
 
 	posts := &[]Post{}
 	err := x.Where("status=?", "publish").
 		And("type=?", "post").
 		Limit(limit).
-		Desc("id").
+		Desc("publish_time").
 		Find(posts)
 
 	return posts, err

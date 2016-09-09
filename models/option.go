@@ -3,7 +3,7 @@ package models
 // Option 配置项
 type Option struct {
 	Name   string `xorm:"pk"`
-	UserID int    `xorm:"pk"`
+	UserID int64  `xorm:"pk"`
 	Value  string
 }
 

@@ -4,6 +4,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -37,4 +38,10 @@ func FileExist(filename string) bool {
 	_, err := os.Stat(filename)
 
 	return err == nil || os.IsExist(err)
+}
+
+// Str2Int64 字符串转 int64
+func Str2Int64(s string) int64 {
+	i, _ := strconv.ParseInt(s, 10, 64)
+	return i
 }
