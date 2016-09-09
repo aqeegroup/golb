@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"regexp"
 	"strings"
 	"time"
 
@@ -14,12 +15,21 @@ func PostSubmit(ctx *context.Context) {
 	resp := models.RespJSON{}
 
 	post := &models.Post{}
+
+	post.Slug = strings.Trim(ctx.Req.PostFormValue("slug"), " ")
+	if len(post.Slug) > 0 {
+		r := regexp.MustCompile("^[\\w-]$")
+		if !r.MatchString(post.Slug) {
+			ctx.RespJSON("缩略名格式有误 只能包含大小写字母和_-")
+			return
+		}
+
+	}
 	post.Title = strings.Trim(ctx.Req.PostFormValue("title"), " ")
 	post.Content = ctx.Req.PostFormValue("content")
 	post.Type = ctx.Req.PostFormValue("type")
 	post.Status = ctx.Req.PostFormValue("status")
 	publishTime := strings.Trim(ctx.Req.PostFormValue("publish_time"), " ")
-	// post.Slug = strings.Trim(ctx.Req.PostFormValue("slug"), "")
 
 	if len(post.Title) == 0 {
 		post.Title = "未命名"
@@ -31,8 +41,9 @@ func PostSubmit(ctx *context.Context) {
 	} else {
 		post.PublishTime = post.CreateTime
 	}
+	post.AuthorID = ctx.Session.Get("uid").(int64)
 
-	_, err := post.Create()
+	err := post.Create()
 	if err != nil {
 		resp.Code = 401
 		resp.Msg = err.Error()

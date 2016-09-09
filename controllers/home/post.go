@@ -2,6 +2,7 @@ package home
 
 import (
 	"blog/models"
+	"fmt"
 
 	"gopkg.in/macaron.v1"
 )
@@ -10,6 +11,7 @@ import (
 func Detail(ctx *macaron.Context) {
 
 	slug := ctx.Params("slug")
+	fmt.Println(slug)
 	post, err := models.FindPostBySlug(slug)
 	if err != nil {
 		ctx.Data["Title"] = "error"

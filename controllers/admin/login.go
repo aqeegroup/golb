@@ -5,12 +5,13 @@ import (
 	"gopkg.in/macaron.v1"
 
 	"blog/models"
+	"blog/modules/context"
 	"blog/modules/setting"
 	"blog/modules/utility"
 )
 
 // Login 后台管理登录页面
-func Login(ctx *macaron.Context, sess session.Store) {
+func Login(ctx *context.Context, sess session.Store) {
 	if uid := sess.Get("uid"); uid != nil {
 		ctx.Redirect("/admin")
 		return
@@ -20,7 +21,7 @@ func Login(ctx *macaron.Context, sess session.Store) {
 }
 
 // DoLogin 登录请求处理
-func DoLogin(ctx *macaron.Context, sess session.Store) {
+func DoLogin(ctx *context.Context, sess session.Store) {
 	username := ctx.Req.FormValue("username")
 	password := ctx.Req.FormValue("password")
 	auto := ctx.Req.FormValue("auto")
@@ -43,7 +44,8 @@ func DoLogin(ctx *macaron.Context, sess session.Store) {
 	}
 
 	// 登录信息记录
-	user.LastIP = ""
+	user.LastIP = ctx.RemoteIP()
+
 	user.Count++
 	if err := models.UpdateUser(user); err != nil {
 		ctx.Data["Title"] = "登录出错"
@@ -72,7 +74,7 @@ func Logout(ctx *macaron.Context, sess session.Store) {
 }
 
 // CheckLogin 检查登录
-func CheckLogin(ctx *macaron.Context, sess session.Store) {
+func CheckLogin(ctx *context.Context, sess session.Store) {
 	if uid := sess.Get("uid"); uid == nil {
 		ctx.Redirect("/admin/login")
 		return

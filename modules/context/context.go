@@ -2,6 +2,7 @@ package context
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/Unknwon/log"
@@ -29,6 +30,7 @@ func Contexter() macaron.Handler {
 			Session: sess,
 			Flash:   f,
 		}
+
 		ctx.Data["PageStartTime"] = time.Now()
 
 		log.Debug("Session ID: %s", sess.ID())
@@ -72,4 +74,30 @@ func (ctx *Context) HasTemplate(t string) bool {
 	}
 
 	return false
+}
+
+// RemoteIP 获取客户端 ip 地址
+func (ctx *Context) RemoteIP() string {
+	addr := strings.Split(ctx.Req.RemoteAddr, ":")
+	return addr[0]
+}
+
+// SuccessJSON 成功返回
+func (ctx *Context) RespJSON(r ...string) {
+	resp := models.RespJSON{}
+
+	len := len(r)
+	if len == 0 {
+		resp.Msg = r[0]
+		resp.Redirect = "OK"
+	} else if len == 1 {
+		resp.Msg = r[0]
+		resp.Redirect = ""
+	} else {
+		resp.Msg = r[0]
+		resp.Redirect = r[1]
+	}
+
+	ctx.JSON(200, resp)
+	return
 }

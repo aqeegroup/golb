@@ -27,6 +27,13 @@ textarea {
 #post-content {
 
 }
+.slug {
+  color: #999;
+}
+.slug input {
+  width: 100px;
+}
+
 .upload-area {
   background-color: #fff;
   border: 1px dashed #e6e6e6;
@@ -129,6 +136,7 @@ textarea {
   z-index: 5000;
   background-color: rgba(0, 0, 0, 0.5);
 }
+
 
 
 @media (max-width: 778px) {

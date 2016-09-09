@@ -79,6 +79,8 @@ $(document).ready(function () {
     post.content = $('#post-content').val();
     post.type = 'post';
     post.status = 'publish';
+    post.slug = $('#slug').val()
+
     $.post('/admin/post', post, function (result) {
       if (result.code == 200) {
         pop(result.msg);

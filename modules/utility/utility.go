@@ -3,6 +3,7 @@ package utility
 import (
 	"crypto/md5"
 	"encoding/hex"
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -19,7 +20,7 @@ func Md5Encrypt(s string) string {
 }
 
 // Date 时间格式化函数
-func Date(format string, timestamp int) string {
+func Date(format string, timestamp int64) string {
 	dateReplace := []string{
 		"Y", "2006",
 		"m", "01",
@@ -44,4 +45,37 @@ func FileExist(filename string) bool {
 func Str2Int64(s string) int64 {
 	i, _ := strconv.ParseInt(s, 10, 64)
 	return i
+}
+
+// SlugNameFormat 处理 SlugName
+func SlugNameFormat(s string) string {
+
+	old := []string{
+		"'", ":", "\\", "/", "\"",
+	}
+	s = Replace(s, old, "")
+
+	old = []string{
+		"+", ",", " ", "，", "　", ".", "?", "=", "&", "!", "<", ">", "(", ")", "[", "]", "{", "}",
+	}
+	s = Replace(s, old, "-")
+	fmt.Println(s)
+
+	return strings.Trim(s, "-_")
+}
+
+// Replace 支持用新字符串替换多个旧字符串
+func Replace(s string, o interface{}, n string) string {
+
+	switch v := o.(type) {
+	case []string:
+		var replace []string
+		for _, o := range v {
+			replace = append(replace, o, n)
+		}
+		return strings.NewReplacer(replace...).Replace(s)
+	case string:
+		return strings.Replace(s, v, n, -1)
+	}
+	return s
 }

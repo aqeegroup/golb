@@ -1,12 +1,16 @@
 package models
 
-import "fmt"
+import (
+	"blog/modules/utility"
+	"fmt"
+	"strconv"
+)
 
 // Post 文章
 type Post struct {
 	ID           int64 `xorm:"pk autoincr"`
 	Title        string
-	Slug         string `xorm:"varchar(100) index"`
+	Slug         string `xorm:"varchar(100) index unique"`
 	Content      string `xorm:"text"`
 	AuthorID     int64
 	Type         string `xorm:"varchar(20)"` // post post_draft
@@ -23,31 +27,52 @@ type Post struct {
 }
 
 // Create 创建文章
-func (p *Post) Create() (int64, error) {
+func (p *Post) Create() error {
 
+	// 有自定义缩略名的话 要处理特殊字符
+	if len(p.Slug) > 0 {
+		p.Slug = utility.SlugNameFormat(p.Slug)
+
+		// 处理完成要查询是否有重复
+		var err error
+		p.Slug, err = slugNameCheck(p.Slug)
+		if err != nil {
+			return err
+		}
+	}
+
+	// 开始事务
 	s := x.NewSession()
 	defer s.Close()
 	s.Begin()
 
-	id, err := x.InsertOne(p)
+	_, err := s.InsertOne(p)
 	if err != nil {
 		s.Rollback()
-		return 0, err
+		return err
 	}
+
+	// 如果缩略名为空 则默认为id
 	if len(p.Slug) == 0 {
-		p.Slug = string(id)
-		id, err = x.Update(p)
+		p.Slug = strconv.Itoa(int(p.ID))
+
+		_, err = s.ID(p.ID).Update(p)
 		if err != nil {
 			s.Rollback()
-			return 0, err
+			return err
 		}
 	}
 
 	err = s.Commit()
 	if err != nil {
-		return 0, err
+		return err
 	}
-	return id, nil
+	return nil
+}
+
+func countSlug(s string) (int, error) {
+	count, err := x.Where("slug=?", s).Count(&Post{})
+	return int(count), err
 }
 
 // FindPostBySlug 根据缩略名查找文章
@@ -116,4 +141,18 @@ func View(id int) error {
 // CountPost 统计全部文章数目
 func CountPost() (int64, error) {
 	return x.Count(&Post{})
+}
+
+func slugNameCheck(s string) (string, error) {
+	count := 1
+
+	for i, err := countSlug(s); i > 0; {
+		if err != nil {
+			return s, err
+		}
+		s = fmt.Sprintf("%s-%d", s, count)
+		count++
+	}
+
+	return s, nil
 }
