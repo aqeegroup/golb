@@ -29,14 +29,13 @@
           </div>
         </div>
         
-        <a href="/admin" class="logo left">GOLB</a>
+        <a href="{{URLFor "admin"}}" class="logo left">GOLB</a>
         <div class="options right">
           <ul>
             <li><a href="{{URLFor "writePost"}}"><i class="iconfont icon-zhuanxie"></i>撰写</a></li>
-            <li><a href="collapsible.html"><i class="iconfont icon-gerenxinxi"></i>Jiayx</a></li>
+            <li><a href="{{URLFor "logout"}}"><i class="iconfont icon-gerenxinxi"></i>{{.Username}}</a></li>
           </ul>
         </div>
-        
         <div class="clearfix"></div>
       </div>
     </nav>
@@ -44,30 +43,27 @@
   <div class="main">
     <div id="sidebar" class="sidebar">
       <ul class="main-menu">
-        <!-- <li class="active">
-          <a href=""><i class="iconfont icon-shouye"></i>首页</a>
-        </li> -->
-        <li class="sub-menu active toggle">
+        <li class="sub-menu {{.ConsoleActive}}">
           <a><i class="iconfont icon-console"></i>控制台</a>
           <ul>
-            <li class="active"><a href="">概要</a></li>
-            <li><a href="">外观</a></li>
+            <li class="{{.MainActive}}"><a href="{{URLFor "admin"}}">概要</a></li>
+            <li class="{{.ThemeActive}}"><a href="">外观</a></li>
           </ul>
         </li>
-        <li class="sub-menu">
+        <li class="sub-menu {{.ManageActive}}">
           <a><i class="iconfont icon-guanli"></i>管理</a>
           <ul>
-            <li class=""><a href="">文章</a></li>
-            <li><a href="">独立页面</a></li>
-            <li><a href="">评论</a></li>
-            <li><a href="">分类</a></li>
-            <li><a href="">标签</a></li>
-            <li><a href="">文件</a></li>
-            <li><a href="">用户</a></li>
-            <li><a href="">友情链接</a></li>
+            <li class="{{.PostActive}}"><a href="{{URLFor "postManage"}}">文章</a></li>
+            <li class="{{.PageActive}}"><a href="">独立页面</a></li>
+            <li class="{{.CommentActive}}"><a href="">评论</a></li>
+            <li class="{{.CateActive}}"><a href="">分类</a></li>
+            <li class="{{.TagActive}}"><a href="">标签</a></li>
+            <li class="{{.FileActive}}"><a href="">文件</a></li>
+            <li class="{{.UserActive}}"><a href="">用户</a></li>
+            <li class="{{.LinkActive}}"><a href="">友情链接</a></li>
           </ul>
         </li>
-        <li class="sub-menu">
+        <li class="sub-menu {{.SettingActive}}">
           <a><i class="iconfont icon-shezhi"></i>设置</a>
           <ul>
             <li class="active"><a href="">基本</a></li>

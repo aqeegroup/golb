@@ -1,5 +1,7 @@
 package models
 
+import "strings"
+
 // Option 配置项
 type Option struct {
 	Name   string `xorm:"pk"`
@@ -23,6 +25,7 @@ func LoadOptions() error {
 	Options.OptionMap = make(map[string]string)
 
 	Options.OptionMap["theme"] = "templates/themes/default"
+	Options.OptionMap["site_url"] = "http://127.0.0.1:4000"
 
 	// return x.Find(UserConfig)
 
@@ -37,4 +40,15 @@ func (o *UserOptions) Get(key string) string {
 	}
 
 	return ""
+}
+
+// SiteURL 配置的网站url
+func SiteURL() string {
+	return strings.Trim(Options.Get("site_url"), "/")
+}
+
+// AssetURL 生成链接地址
+func AssetURL(s string) string {
+
+	return SiteURL() + "/" + s
 }

@@ -1,4 +1,4 @@
-{{template "header"}}
+{{template "header" .}}
 
     <div class="content">
       <div class="container-fluid">
@@ -12,7 +12,7 @@
               <a href="">
                 <div class="count-board">
                   <p>文章</p>
-                  <h3>23</h3>
+                  <h3>{{.PostCount}}</h3>
                 </div>
               </a>
             </div>
@@ -20,7 +20,7 @@
               <a href="">
                 <div class="count-board">
                   <p>评论</p>
-                  <h3>232</h3>                
+                  <h3>{{.CountComment}}</h3>                
                 </div>
               </a>
             </div>
@@ -28,7 +28,7 @@
               <a href="">
                 <div class="count-board">
                   <p>分类</p>
-                  <h3>7</h3>
+                  <h3>{{.CountCate}}</h3>
                 </div>
               </a>
             </div>
@@ -41,12 +41,9 @@
               <div class="latest">
                 <h4>近期文章</h4>
                 <table class="table">
-                  <tr><td>8.15</td><td>文章文章文章文章文章文章</td></tr>
-                  <tr><td>8.15</td><td>文章文章文章文章文章文章</td></tr>
-                  <tr><td>8.15</td><td>文章文章文章文章文章文章</td></tr>
-                  <tr><td>8.15</td><td>文章文章文章章</td></tr>
-                  <tr><td>8.15</td><td>文章文章文章章</td></tr>
-                  <tr><td>8.15</td><td>文章文章文章章</td></tr>
+                  {{range .LatestPosts}}
+                  <tr><td>{{date "m-d" .CreateTime}}</td><td>{{.Title}}</td></tr>
+                  {{end}}
                 </table>
               </div>
             </div>
@@ -70,61 +67,5 @@
 
       </div>
     </div>
-    <footer>
-      <div class="footer">
-        Copyright © 2016 GOLB.
-      </div>
-    </footer>
-
-    
-  </div>
-  <script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
-  <script src="/lib/jquery.nicescroll.min.js"></script>
-  <script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.js"></script>
-  <script type="text/javascript">
-    $(document).ready(function () {
-      
-      // content 重重新计算高度
-      contentResize();
-
-      // 模拟滚动条
-      $('#sidebar').niceScroll({cursorcolor: 'rgba(0,0,0,0.3)'});
-      // 点击菜单按钮侧边栏
-      $('#sidebar-control').click(function () {
-        $('body').toggleClass('sidebar-toggle');
-      });
-      $('.sub-menu').click(function () {
-        var ul = $(this).children('ul');
-        var height = ul.height();
-        console.log(height);
-        if (ul.css('display') == 'none') {
-          $(this).addClass('toggle');
-          ul.css({display: 'block', height: 0});
-          ul.animate({'height': height}, 300);
-
-        } else {
-          $(this).removeClass('toggle');
-          ul.animate({'height': 0}, 300, function () {
-            ul.css({display: 'none', height: height});
-          });
-        }
-      });
-
-      // 算了吧
-      // $(window).on('resize', function () {
-      //   // contentResize();
-      // });
-
-    })
-
-    var contentResize = function () {
-      var wh = $(window).height();
-      var h = $('.content').height();
-      var th = wh - 58 - 70 - 20;
-      if (h < th) {
-        $('.content').css({'min-height': th});
-      }
-    }
-  </script>
-</body>
-</html>
+  
+{{template "footer" .}}

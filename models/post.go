@@ -32,7 +32,6 @@ func (p *Post) Create() error {
 	// 有自定义缩略名的话 要处理特殊字符
 	if len(p.Slug) > 0 {
 		p.Slug = utility.SlugNameFormat(p.Slug)
-
 		// 处理完成要查询是否有重复
 		var err error
 		p.Slug, err = slugNameCheck(p.Slug)
@@ -70,8 +69,15 @@ func (p *Post) Create() error {
 	return nil
 }
 
-func countSlug(s string) (int, error) {
-	count, err := x.Where("slug=?", s).Count(&Post{})
+// 查询是否有相同缩略名的文章
+func countSlug(s string, id ...int) (int, error) {
+	fmt.Println(s)
+	session := x.Where("slug=?", s)
+
+	if len(id) >= 1 {
+		session.And("id<>?", id[0])
+	}
+	count, err := session.Count(&Post{})
 	return int(count), err
 }
 
@@ -88,6 +94,7 @@ func FindPostBySlug(slug string) (*Post, error) {
 	}
 	post.Slug = string(post.ID)
 	fmt.Println(post.Slug)
+
 	return post, err
 }
 
@@ -107,9 +114,8 @@ func FindPosts(page, limit int) (*[]Post, error) {
 	return posts, err
 }
 
-// RecentPosts 最近文章
-func RecentPosts(limit int) (*[]Post, error) {
-
+// LatestPosts 最近文章
+func LatestPosts(limit int) (*[]Post, error) {
 	posts := &[]Post{}
 	err := x.Where("status=?", "publish").
 		And("type=?", "post").
@@ -146,11 +152,14 @@ func CountPost() (int64, error) {
 func slugNameCheck(s string) (string, error) {
 	count := 1
 
-	for i, err := countSlug(s); i > 0; {
+	temp := s
+	for i, err := countSlug(s); i > 0; i, err = countSlug(s) {
+		fmt.Println(i)
+		fmt.Println(count)
 		if err != nil {
 			return s, err
 		}
-		s = fmt.Sprintf("%s-%d", s, count)
+		s = fmt.Sprintf("%s-%d", temp, count)
 		count++
 	}
 

@@ -76,6 +76,8 @@ func Logout(ctx *macaron.Context, sess session.Store) {
 // CheckLogin 检查登录
 func CheckLogin(ctx *context.Context, sess session.Store) {
 	if uid := sess.Get("uid"); uid == nil {
+		// TODO redirect
+		// redirectURL := ctx.Req.Host + ctx.Req.RequestURI
 		ctx.Redirect("/admin/login")
 		return
 	}

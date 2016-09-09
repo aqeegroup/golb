@@ -8,19 +8,21 @@ $(document).ready(function () {
   contentResize();
 
   // 日期选择插件
-  $('#datetimepicker').datetimepicker({});
+  $('#datetimepicker').datetimepicker({
+    useCurrent: false,
+  });
 
   // 模拟滚动条
   $('#sidebar').niceScroll({cursorcolor: 'rgba(0,0,0,0.3)'});
 
   // 点击菜单按钮侧边栏
   $('#sidebar-control').click(function () {
-  $('body').toggleClass('sidebar-toggle');
+    $('body').toggleClass('sidebar-toggle');
   });
   $('.sub-menu').click(function () {
   var ul = $(this).children('ul');
   var height = ul.height();
-  console.log(height);
+  // console.log(height);
   if (ul.css('display') == 'none') {
     $(this).addClass('toggle');
     ul.css({display: 'block', height: 0});

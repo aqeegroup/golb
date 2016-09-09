@@ -46,8 +46,9 @@ func newMacaron() {
 		// 这个配置将来要从数据库取
 		Directory: models.Options.Get("theme"),
 		Funcs: []template.FuncMap{map[string]interface{}{
-			"URLFor": m.URLFor,     // url 生成函数
-			"date":   utility.Date, // 时间格式化函数
+			"URLFor": m.URLFor,        // url 生成函数
+			"date":   utility.Date,    // 时间格式化函数
+			"asset":  models.AssetURL, // 生成静态文件链接
 		}},
 	}, "admin:templates/admin"))
 
@@ -75,7 +76,7 @@ func routesInit() {
 
 	// 后台路由组
 	m.Group("/admin", func() {
-		m.Get("/", admin.CheckLogin, admin.Index)
+		m.Get("/", admin.CheckLogin, admin.Index).Name("admin")
 		m.Get("/login", admin.Login).Name("login")
 		m.Post("/login", admin.DoLogin).Name("doLogin")
 		m.Get("/logout", admin.Logout).Name("logout")
@@ -83,7 +84,14 @@ func routesInit() {
 		m.Group("/post", func() {
 			m.Get("/", admin.WritePage).Name("writePost")
 			m.Post("/", admin.PostSubmit)
-		})
+			m.Get("/manage/", admin.PostManage).Name("postManage")
+		}, admin.CheckLogin)
+
+		m.Group("/cate", func() {
+			m.Get("/", admin.Cate).Name("cate")
+			m.Post("/", admin.CreateOrUpdateCate).Name("cateCreateOrUpdate")
+			m.Post("/del/", admin.DoDeleteCate).Name("cateDel")
+		}, admin.CheckLogin)
 
 	})
 }

@@ -36,6 +36,19 @@ func Contexter() macaron.Handler {
 		log.Debug("Session ID: %s", sess.ID())
 		ctx.Data["Version"] = "0.1"
 		ctx.Data["VersionDate"] = "2016-09-05"
+
+		// 导航 active 控制
+		ctx.Data["MainActive"] = ""
+		ctx.Data["ThemeActive"] = ""
+		ctx.Data["PostActive"] = ""
+		ctx.Data["PageActive"] = ""
+		ctx.Data["CommentActive"] = ""
+		ctx.Data["CateActive"] = ""
+		ctx.Data["TagActive"] = ""
+		ctx.Data["FileActive"] = ""
+		ctx.Data["UserActive"] = ""
+		ctx.Data["LinkActive"] = ""
+
 		c.Map(ctx)
 	}
 }
@@ -57,6 +70,7 @@ func (ctx *Context) Handle(status int, title string, err error) {
 		ctx.Data["Title"] = "Internal Server Error"
 		ctx.Data["ErrMsg"] = "Internal Server Error."
 	}
+	fmt.Println(ctx.HasTemplate("error"))
 	if ctx.HasTemplate("error") {
 		ctx.HTML(status, "error")
 		return
@@ -68,7 +82,8 @@ func (ctx *Context) Handle(status int, title string, err error) {
 func (ctx *Context) HasTemplate(t string) bool {
 
 	theme := models.Options.Get("theme")
-	tPath := fmt.Sprintf("%s/%s/%s", setting.AppPath, theme, t)
+	tPath := fmt.Sprintf("%s/%s/%s.html", setting.WorkDir(), theme, t)
+	fmt.Println(tPath)
 	if utility.FileExist(tPath) {
 		return true
 	}
@@ -82,7 +97,7 @@ func (ctx *Context) RemoteIP() string {
 	return addr[0]
 }
 
-// SuccessJSON 成功返回
+// RespJSON 成功返回
 func (ctx *Context) RespJSON(r ...string) {
 	resp := models.RespJSON{}
 

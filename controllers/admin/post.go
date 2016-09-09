@@ -18,18 +18,26 @@ func PostSubmit(ctx *context.Context) {
 
 	post.Slug = strings.Trim(ctx.Req.PostFormValue("slug"), " ")
 	if len(post.Slug) > 0 {
-		r := regexp.MustCompile("^[\\w-]$")
+		r := regexp.MustCompile("^[\\w-]+$")
 		if !r.MatchString(post.Slug) {
-			ctx.RespJSON("缩略名格式有误 只能包含大小写字母和_-")
+			ctx.RespJSON("缩略名格式有误 只能包含大小写字母、_和-")
 			return
 		}
-
 	}
+
+	publishTime := strings.Trim(ctx.Req.PostFormValue("publish_time"), " ")
+	if len(publishTime) > 0 {
+		r := regexp.MustCompile("^14\\d{8}$")
+		if !r.MatchString(publishTime) {
+			ctx.RespJSON("发布日期格式有误")
+			return
+		}
+	}
+
 	post.Title = strings.Trim(ctx.Req.PostFormValue("title"), " ")
 	post.Content = ctx.Req.PostFormValue("content")
 	post.Type = ctx.Req.PostFormValue("type")
 	post.Status = ctx.Req.PostFormValue("status")
-	publishTime := strings.Trim(ctx.Req.PostFormValue("publish_time"), " ")
 
 	if len(post.Title) == 0 {
 		post.Title = "未命名"
@@ -51,16 +59,33 @@ func PostSubmit(ctx *context.Context) {
 		return
 	}
 
-	resp.Code = 200
-	resp.Msg = "发布成功"
-	resp.Redirect = ctx.URLFor("home")
-	ctx.JSON(200, resp)
+	ctx.RespJSON("发布成功", ctx.URLFor("home"))
 	return
-
 }
 
 // WritePage 写文章的页面
 func WritePage(ctx *context.Context) {
 	ctx.Data["HideSidebar"] = true
+
+	ctx.Data["Scripts"] = []string{"admin/js/index.js"}
+
 	ctx.HTMLSet(200, "admin", "post")
+	return
+}
+
+// PostManage 管理文章页面
+func PostManage(ctx *context.Context) {
+	ctx.Data["Title"] = "文章管理"
+	ctx.Data["PostActive"] = "active"
+	ctx.Data["ManageActive"] = "active toggle"
+
+	posts, err := models.FindPosts(1, 10)
+	if err != nil {
+		ctx.Handle(500, "", err)
+	}
+	ctx.Data["Posts"] = posts
+
+	ctx.Data["Scripts"] = []string{"admin/js/index.js"}
+	ctx.HTMLSet(200, "admin", "post_list")
+	return
 }
