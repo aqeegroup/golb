@@ -34,8 +34,8 @@
                 <td>{{.Title}}</td>
                 <td>1</td>
                 <td>{{.Author.Username}}</td>
-                <td>1</td>
-                <td>1</td>
+                <td>{{join .CateNames ", "}}</td>
+                <td>{{date "Y-m-d" .CreateTime}}</td>
               </tr>
               {{end}}
             </tbody>

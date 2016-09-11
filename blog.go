@@ -2,6 +2,7 @@ package main
 
 import (
 	"html/template"
+	"strings"
 
 	"github.com/go-macaron/session"
 	"gopkg.in/macaron.v1"
@@ -49,6 +50,8 @@ func newMacaron() {
 			"URLFor": m.URLFor,        // url 生成函数
 			"date":   utility.Date,    // 时间格式化函数
 			"asset":  models.AssetURL, // 生成静态文件链接
+			"join":   strings.Join,    // 生成静态文件链接
+			"trim":   strings.Trim,
 		}},
 	}, "admin:templates/admin"))
 

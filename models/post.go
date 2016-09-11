@@ -3,6 +3,7 @@ package models
 import (
 	"blog/modules/utility"
 	"fmt"
+	"log"
 	"strconv"
 )
 
@@ -24,8 +25,10 @@ type Post struct {
 	PublishTime  int64 `xorm:"index"`
 
 	// Metas []PostMeta `xorm:"-"`
-	Cates []PostMeta `xorm:"-"`
-	Tags  []PostMeta `xorm:"-"`
+	Cates     []PostMeta `xorm:"-"`
+	Tags      []PostMeta `xorm:"-"`
+	CateNames []string   `xorm:"-"`
+	TagNames  []string   `xorm:"-"`
 }
 
 // PostDetail 文章详情
@@ -106,8 +109,10 @@ func FindPostBySlug(slug string) (*Post, error) {
 	if !has {
 		return nil, fmt.Errorf("没有找到这篇文章: %s", slug)
 	}
-	post.Slug = string(post.ID)
-	fmt.Println(post.Slug)
+
+	err = FindCateAndTagByPostID(post)
+
+	log.Println(post)
 
 	return post, err
 }
@@ -143,18 +148,10 @@ func FindPostsDetail(page, limit int) (*[]PostDetail, error) {
 		Desc("publish_time").
 		Find(posts)
 	for _, post := range *posts {
-		metas, err := FindMetasByPostID(post.ID)
+		err := FindCateAndTagByPostID(&post.Post)
 		if err != nil {
 			return posts, err
 		}
-		for _, meta := range *metas {
-			if meta.Type == "category" {
-				post.Cates = append(post.Cates, meta)
-			} else if meta.Type == "tag" {
-				post.Tags = append(post.Tags, meta)
-			}
-		}
-		// post.Metas = append(post.Metas, (*metas)...)
 	}
 
 	return posts, err

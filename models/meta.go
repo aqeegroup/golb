@@ -13,3 +13,22 @@ type Meta struct {
 
 	Children []Meta `xorm:"-"` // 子分类
 }
+
+// FindCateAndTagByPostID 查询文章的 tag 和 category
+func FindCateAndTagByPostID(post *Post) error {
+	metas, err := FindMetasByPostID(post.ID)
+	if err != nil {
+		return err
+	}
+
+	for _, meta := range *metas {
+		if meta.Type == "category" {
+			post.Cates = append(post.Cates, meta)
+			post.CateNames = append(post.CateNames, meta.Name)
+		} else if meta.Type == "tag" {
+			post.Tags = append(post.Tags, meta)
+			post.TagNames = append(post.TagNames, meta.Name)
+		}
+	}
+	return nil
+}
