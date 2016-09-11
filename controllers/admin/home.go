@@ -12,8 +12,6 @@ import (
 // Index 后台管理首页
 func Index(ctx *context.Context, sess session.Store) {
 
-	ctx.Data["Uid"] = sess.Get("uid")
-	ctx.Data["Username"] = sess.Get("username")
 	ctx.Data["Title"] = "网站概要"
 
 	postCount, err := models.CountPost()

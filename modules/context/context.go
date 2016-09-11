@@ -37,7 +37,10 @@ func Contexter() macaron.Handler {
 		ctx.Data["Version"] = "0.1"
 		ctx.Data["VersionDate"] = "2016-09-05"
 
-		// 导航 active 控制
+		ctx.Data["Uid"] = sess.Get("uid")
+		ctx.Data["Username"] = sess.Get("username")
+
+		// 导航 active 控制 - 可以不要
 		ctx.Data["MainActive"] = ""
 		ctx.Data["ThemeActive"] = ""
 		ctx.Data["PostActive"] = ""
@@ -70,7 +73,7 @@ func (ctx *Context) Handle(status int, title string, err error) {
 		ctx.Data["Title"] = "Internal Server Error"
 		ctx.Data["ErrMsg"] = "Internal Server Error."
 	}
-	fmt.Println(ctx.HasTemplate("error"))
+	// fmt.Println(ctx.HasTemplate("error"))
 	if ctx.HasTemplate("error") {
 		ctx.HTML(status, "error")
 		return
@@ -83,7 +86,7 @@ func (ctx *Context) HasTemplate(t string) bool {
 
 	theme := models.Options.Get("theme")
 	tPath := fmt.Sprintf("%s/%s/%s.html", setting.WorkDir(), theme, t)
-	fmt.Println(tPath)
+	// fmt.Println(tPath)
 	if utility.FileExist(tPath) {
 		return true
 	}

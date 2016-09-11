@@ -1,21 +1,52 @@
 {{template "header" .}}
 
-  <div class="content">
-    <div class="container-fluid">
+<div class="content">
+  <div class="container-fluid">
+    <h3>文章管理</h3>
+    <div class="delete">
+      <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+          选中项 <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li><a>删除</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="post-manage">
       <div class="row">
-        <div class="col-sm-12" style="background-color: #fff;">
-          <table class="table">
-            <tr><th>#</th><th>标题</th><th>作者</th><th>分类</th><th>日期</th></tr>
-            <tr><td><input type="checkbox"><span>12</span></td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+        <div class="col-sm-12">
+          <table id="post-table" class="table table-hover">
+            <thead>
+              <tr>
+                <th><input id="select-all" type="checkbox"></th>
+                <th>标题</th>
+                <th>评论</th>
+                <th>作者</th>
+                <th>分类</th>
+                <th>日期</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{range .Posts}}
+              <tr>
+                <td><input type="checkbox"></td>
+                <td>{{.Title}}</td>
+                <td>1</td>
+                <td>{{.Author.Username}}</td>
+                <td>1</td>
+                <td>1</td>
+              </tr>
+              {{end}}
+            </tbody>
+
           </table>
         </div>
       </div>
+
     </div>
   </div>
+</div>
 
 
 {{template "footer" .}}

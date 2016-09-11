@@ -23,7 +23,21 @@ type Post struct {
 	UpdateTime   int64 `xorm:"updated"`
 	PublishTime  int64 `xorm:"index"`
 
-	metas []Meta `xorm:"-"`
+	// Metas []PostMeta `xorm:"-"`
+	Cates []PostMeta `xorm:"-"`
+	Tags  []PostMeta `xorm:"-"`
+}
+
+// PostDetail 文章详情
+type PostDetail struct {
+	Post   `xorm:"extends"`
+	Author User   `xorm:"extends"`
+	metas  []Meta `xorm:"extends"`
+}
+
+// TableName PostDetail 的orm表名
+func (PostDetail) TableName() string {
+	return "post"
 }
 
 // Create 创建文章
@@ -99,17 +113,49 @@ func FindPostBySlug(slug string) (*Post, error) {
 }
 
 // FindPosts 查询所有文章带分页
-func FindPosts(page, limit int) (*[]Post, error) {
+func FindPosts(page, limit int) (*[]PostDetail, error) {
 	if page > 0 {
 		page = page - 1
 	}
 	offset := page * limit
-	posts := &[]Post{}
+	posts := &[]PostDetail{}
 	err := x.Where("status=?", "publish").
+		Join("LEFT", "user", "post.author_id = user.id").
 		And("type=?", "post").
 		Limit(limit, offset).
 		Desc("publish_time").
 		Find(posts)
+
+	return posts, err
+}
+
+// FindPostsDetail 查询所有文章详情带分页
+func FindPostsDetail(page, limit int) (*[]PostDetail, error) {
+	if page > 0 {
+		page = page - 1
+	}
+	offset := page * limit
+	posts := &[]PostDetail{}
+	err := x.Where("status=?", "publish").
+		Join("LEFT", "user", "post.author_id = user.id").
+		And("type=?", "post").
+		Limit(limit, offset).
+		Desc("publish_time").
+		Find(posts)
+	for _, post := range *posts {
+		metas, err := FindMetasByPostID(post.ID)
+		if err != nil {
+			return posts, err
+		}
+		for _, meta := range *metas {
+			if meta.Type == "category" {
+				post.Cates = append(post.Cates, meta)
+			} else if meta.Type == "tag" {
+				post.Tags = append(post.Tags, meta)
+			}
+		}
+		// post.Metas = append(post.Metas, (*metas)...)
+	}
 
 	return posts, err
 }

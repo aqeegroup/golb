@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"fmt"
 	"regexp"
 	"strings"
 	"time"
@@ -66,6 +67,7 @@ func PostSubmit(ctx *context.Context) {
 // WritePage 写文章的页面
 func WritePage(ctx *context.Context) {
 	ctx.Data["HideSidebar"] = true
+	ctx.Data["Title"] = "文章管理"
 
 	ctx.Data["Scripts"] = []string{"admin/js/index.js"}
 
@@ -79,12 +81,15 @@ func PostManage(ctx *context.Context) {
 	ctx.Data["PostActive"] = "active"
 	ctx.Data["ManageActive"] = "active toggle"
 
-	posts, err := models.FindPosts(1, 10)
+	posts, err := models.FindPostsDetail(1, 10)
+	fmt.Println(posts)
 	if err != nil {
 		ctx.Handle(500, "", err)
+		return
 	}
 	ctx.Data["Posts"] = posts
 
+	ctx.Data["Styles"] = []string{"admin/css/post_list.css"}
 	ctx.Data["Scripts"] = []string{"admin/js/index.js"}
 	ctx.HTMLSet(200, "admin", "post_list")
 	return
