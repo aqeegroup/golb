@@ -3,14 +3,12 @@ package admin
 import (
 	"fmt"
 
-	"github.com/go-macaron/session"
-
 	"blog/models"
 	"blog/modules/context"
 )
 
 // Index 后台管理首页
-func Index(ctx *context.Context, sess session.Store) {
+func Index(ctx *context.Context) {
 
 	ctx.Data["Title"] = "网站概要"
 

@@ -114,6 +114,22 @@ $(document).ready(function () {
     }
   });
   // 选中项操作
+
+
+  // 新增分类
+  $('#submit-cate').click(function () {
+    var modal = $('#add-cate');
+    var form = {};
+    form.name = modal.find('input[name=name]').val();
+    form.slug = modal.find('input[name=slug]').val();
+    form.parent = modal.find('select[name=parent]').val();
+    // console.log(form);
+    $.post('/admin/cate', form, function (data) {
+      pop(data.msg);
+      hideModal();
+    });
+
+  });
   
 
 });
@@ -138,3 +154,13 @@ var pop = function (text) {
     delay(3000).
     fadeOut();
 };
+
+var showModal = function (id) {
+  $('#'+id).show();
+  $('#modal').modal('show');
+}
+
+var hideModal = function () {
+  $(".modal-content").hide();
+  $('#modal').modal('hide');
+}

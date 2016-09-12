@@ -18,6 +18,10 @@ a:hover, a:visited, a:link {
   text-decoration: none;
 }
 
+input, select, .btn, .dropdown-menu {
+  border-radius: 0;
+}
+
 /*.clearfix {
   clear: both;
 }*/

@@ -8,7 +8,13 @@ import (
 func Cate(ctx *context.Context) {
 
 	ctx.Data["Title"] = "分类管理"
-	ctx.HTML(200, "admin", "cate")
+	ctx.Data["CateActive"] = "active"
+	ctx.Data["ManageActive"] = "active toggle"
+
+	ctx.Data["Styles"] = []string{"admin/css/post_list.css"}
+	ctx.Data["Scripts"] = []string{"admin/js/index.js"}
+
+	ctx.HTMLSet(200, "admin", "cate")
 	return
 }
 
