@@ -69,10 +69,10 @@
         <li class="sub-menu {{.SettingActive}}">
           <a><i class="iconfont icon-shezhi"></i>设置</a>
           <ul>
-            <li class="active"><a href="">基本</a></li>
-            <li><a href="">评论</a></li>
-            <li><a href="">阅读</a></li>
-            <li><a href="">永久链接</a></li>
+            <li class="{{.BaseConfigActive}}"><a href="">基本</a></li>
+            <li class="{{.CommentConfigActive}}"><a href="">评论</a></li>
+            <li class="{{.ReadConfigActive}}"><a href="">阅读</a></li>
+            <li class="{{.LinkConfigActive}}"><a href="">永久链接</a></li>
           </ul>
         </li>
       </ul>
