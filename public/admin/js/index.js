@@ -90,7 +90,6 @@ $(document).ready(function () {
 
       } else {
         pop(result.msg);
-        result.redirect && (window.location.href = result.redirect);
       }
       $btn.button('reset');
     });
@@ -122,13 +121,57 @@ $(document).ready(function () {
     var form = {};
     form.name = modal.find('input[name=name]').val();
     form.slug = modal.find('input[name=slug]').val();
-    form.parent = modal.find('select[name=parent]').val();
+    form.parent_id = modal.find('select[name=parent]').val();
+   
     // console.log(form);
     $.post('/admin/cate', form, function (data) {
-      pop(data.msg);
-      hideModal();
+      if (data.code == "200") {
+        pop(data.msg);
+        hideModal();
+        data.redirect && (window.location.href = data.redirect);        
+      } else {
+        pop(data.msg);
+      }
     });
+  });
 
+  // 删除分类
+  $('#delete-cate').click(function () {
+
+    Util.confirm('确认删除选中的分类吗？', function () {
+      var checked = [];
+      $('#cates').find('input:checked').each(function () {
+        checked.push($(this).val());
+      });
+
+      // console.log(checked);
+      $.post('/admin/cate/del', {id: checked.join(',')}, function(data) {
+        if (data.code == '200') {
+          pop(data.msg);
+          Util.close();
+          data.redirect && (window.location.href = data.redirect);                  
+        }
+      });
+    });
+  });
+
+  // 删除文章
+  $('#delete-post').click(function () {
+    Util.confirm('确认删除选中的文章吗？', function () {
+      var checked = [];
+      $('#cates').find('input:checked').each(function () {
+        checked.push($(this).val());
+      });
+      console.log(checked);
+
+      // $.post('/admin/cate/del', {id: checked.join(',')}, function(data) {
+      //   if (data.code == '200') {
+      //     pop(data.msg);
+      //     Util.close();
+      //     data.redirect && (window.location.href = data.redirect);                  
+      //   }
+      // });
+    });
   });
   
 

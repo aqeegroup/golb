@@ -45,6 +45,14 @@
                   </div>
                   <h5>分类</h5>
                   <div class="cate">
+                    {{range .Cates}}
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" value="{{.ID}}">{{.Name}}
+                      </label>
+                    </div>
+                    {{end}}
+                    <!--二级分类
                     <div class="checkbox">
                       <label>
                         <input type="checkbox" value="">分类1
@@ -66,12 +74,9 @@
                           </label>
                         </div>
                       </ul>
-                    </div>
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" value="">分类2
-                      </label>
-                    </div>
+                    </div>-->
+                    
+                    
                   </div>
                   <h5>选择已有标签</h5>
                   <div class="tags-content">

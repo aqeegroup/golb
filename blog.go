@@ -93,7 +93,7 @@ func routesInit() {
 		m.Group("/cate", func() {
 			m.Get("/", admin.Cate).Name("cate")
 			m.Post("/", admin.CreateOrUpdateCate).Name("cateCreateOrUpdate")
-			m.Post("/del/", admin.DoDeleteCate).Name("cateDel")
+			m.Post("/del/", admin.DeleteCate).Name("cateDel")
 		}, admin.CheckLogin)
 
 	})

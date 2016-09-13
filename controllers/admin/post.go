@@ -21,7 +21,7 @@ func PostSubmit(ctx *context.Context) {
 	if len(post.Slug) > 0 {
 		r := regexp.MustCompile("^[\\w-]+$")
 		if !r.MatchString(post.Slug) {
-			ctx.RespJSON("缩略名格式有误 只能包含大小写字母、_和-")
+			ctx.RespJSON("400", "缩略名格式有误 只能包含大小写字母、_和-")
 			return
 		}
 	}
@@ -30,7 +30,7 @@ func PostSubmit(ctx *context.Context) {
 	if len(publishTime) > 0 {
 		r := regexp.MustCompile("^14\\d{8}$")
 		if !r.MatchString(publishTime) {
-			ctx.RespJSON("发布日期格式有误")
+			ctx.RespJSON("400", "发布日期格式有误")
 			return
 		}
 	}
@@ -54,13 +54,13 @@ func PostSubmit(ctx *context.Context) {
 
 	err := post.Create()
 	if err != nil {
-		resp.Code = 401
+		resp.Code = "401"
 		resp.Msg = err.Error()
 		ctx.JSON(200, resp)
 		return
 	}
 
-	ctx.RespJSON("发布成功", ctx.URLFor("home"))
+	ctx.RespJSON("200", "发布成功", ctx.URLFor("home"))
 	return
 }
 
@@ -68,6 +68,13 @@ func PostSubmit(ctx *context.Context) {
 func WritePage(ctx *context.Context) {
 	ctx.Data["HideSidebar"] = true
 	ctx.Data["Title"] = "文章管理"
+
+	cates, err := models.FindAllCates()
+	if err != nil {
+		ctx.Handle(500, "", nil)
+	}
+
+	ctx.Data["Cates"] = cates
 
 	ctx.Data["Scripts"] = []string{"admin/js/index.js"}
 
@@ -90,7 +97,7 @@ func PostManage(ctx *context.Context) {
 	ctx.Data["Posts"] = posts
 
 	ctx.Data["Styles"] = []string{"admin/css/post_list.css"}
-	ctx.Data["Scripts"] = []string{"admin/js/index.js"}
+	ctx.Data["Scripts"] = []string{"admin/js/index.js", "admin/js/util.js"}
 	ctx.HTMLSet(200, "admin", "post_list")
 	return
 }

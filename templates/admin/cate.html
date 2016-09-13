@@ -3,15 +3,8 @@
 <div class="content">
   <div class="container-fluid">
     <h3>分类管理 <a onclick="showModal('add-cate');" style="cursor: pointer;"> 新增</a></h3>
-    <div class="delete">
-      <div class="btn-group">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-          选中项 <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" role="menu">
-          <li><a>删除</a></li>
-        </ul>
-      </div>
+    <div class="btn-group">
+      <button id="delete-cate" type="button" class="btn btn-default">删除选中项</button>
     </div>
     <div class="post-manage">
       <div class="row">
@@ -26,14 +19,14 @@
                 <th>文章数</th>
               </tr>
             </thead>
-            <tbody>
-              {{range .Posts}}
+            <tbody id="cates">
+              {{range .Cates}}
               <tr>
-                <td><input type="checkbox"></td>
+                <td><input type="checkbox" value="{{.ID}}"></td>
                 <td>{{.Name}}</td>
-                <td>{{.Author.Username}}</td>
-                <td>{{join .CateNames ", "}}</td>
-                <td>{{date "Y-m-d" .CreateTime}}</td>
+                <td>暂不支持</td>
+                <td>{{.Slug}}</td>
+                <td>{{.Count}}</td>
               </tr>
               {{end}}
             </tbody>

@@ -103,19 +103,55 @@ func (ctx *Context) RemoteIP() string {
 // RespJSON 成功返回
 func (ctx *Context) RespJSON(r ...string) {
 	resp := models.RespJSON{}
+	resp.Code = "200"
 
 	len := len(r)
 	if len == 0 {
-		resp.Msg = r[0]
-		resp.Redirect = "OK"
+		resp.Msg = "OK"
 	} else if len == 1 {
 		resp.Msg = r[0]
-		resp.Redirect = ""
+	} else if len == 2 {
+		resp.Code = r[0]
+		resp.Msg = r[1]
 	} else {
-		resp.Msg = r[0]
-		resp.Redirect = r[1]
+		resp.Code = r[0]
+		resp.Msg = r[1]
+		resp.Redirect = r[2]
 	}
 
 	ctx.JSON(200, resp)
 	return
+}
+
+// PostString post 取值 返回 string
+func (ctx *Context) PostString(args ...string) string {
+	var (
+		key          string
+		defaultValur string
+	)
+	switch len(args) {
+	case 0:
+		return defaultValur
+	case 1:
+		key = args[0]
+	default:
+		key = args[0]
+		defaultValur = args[1]
+	}
+	s := ctx.Req.PostFormValue(key)
+	s = strings.TrimSpace(s)
+	if len(s) == 0 {
+		return defaultValur
+	}
+	return s
+}
+
+// PostInt64 post 取值 返回int64
+func (ctx *Context) PostInt64(k string, defaultValue ...int64) int64 {
+	s := ctx.Req.PostFormValue(k)
+	s = strings.TrimSpace(s)
+	if len(s) == 0 && len(defaultValue) > 0 {
+		return defaultValue[0]
+	}
+	return utility.Str2Int64(s)
 }

@@ -7,8 +7,8 @@
     margin-top: 20px;
 }
 
-#post-table .checked{
-    background-color: #fff9e8;
+tbody>.checked {
+    background-color: #fff9e8 !important;
 }
 
 #modal {

@@ -16,7 +16,7 @@ import (
 
 // RespJSON 返回 json
 type RespJSON struct {
-	Code     int    `json:"code"`
+	Code     string `json:"code"`
 	Msg      string `json:"msg"`
 	Redirect string `json:"redirect"`
 }
