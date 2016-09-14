@@ -88,6 +88,8 @@ func routesInit() {
 			m.Get("/", admin.WritePage).Name("writePost")
 			m.Post("/", admin.PostSubmit)
 			m.Get("/manage/", admin.PostManage).Name("postManage")
+			m.Post("/del/", admin.PostDelete).Name("PostDelete")
+
 		}, admin.CheckLogin)
 
 		m.Group("/cate", func() {

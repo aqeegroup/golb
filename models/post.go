@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"strconv"
+	"strings"
 )
 
 // Post 文章
@@ -38,7 +39,7 @@ type PostDetail struct {
 	metas  []Meta `xorm:"extends"`
 }
 
-// TableName PostDetail 的orm表名
+// TableName PostDetail 的orm映射表名
 func (PostDetail) TableName() string {
 	return "post"
 }
@@ -79,11 +80,26 @@ func (p *Post) Create() error {
 		}
 	}
 
+	// 插入
+	// cateIds := strings.Split(cates, ",")
+	// for _, cateId := range cateIds {
+	// 	relationship := models.Relationship{}
+	// 	post.Cates.Relationship = append()
+	// }
+
 	err = s.Commit()
 	if err != nil {
+		s.Rollback()
 		return err
 	}
 	return nil
+}
+
+// DeletePosts 删除文章
+func DeletePosts(ids string) error {
+	id := strings.Split(ids, ",")
+	_, err := x.In("id", id).Delete(&Post{})
+	return err
 }
 
 // 查询是否有相同缩略名的文章
@@ -180,11 +196,8 @@ func Like(id int) error {
 
 // View 文章浏览次数自增1
 func View(id int) error {
-	if _, err := x.Exec("UPDATE `post` SET view = view + 1 WHERE id = ?", id); err != nil {
-		return err
-	}
-
-	return nil
+	_, err := x.Where("id=?", id).Incr("view", 1).Update(&Post{})
+	return err
 }
 
 // CountPost 统计全部文章数目

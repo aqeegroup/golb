@@ -22,15 +22,15 @@
                 <th>日期</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="post-list">
               {{range .Posts}}
               <tr>
-                <td><input type="checkbox"></td>
+                <td><input type="checkbox" value="{{.ID}}"></td>
                 <td>{{.Title}}</td>
-                <td>1</td>
+                <td>todo</td>
                 <td>{{.Author.Username}}</td>
                 <td>{{join .CateNames ", "}}</td>
-                <td>{{date "Y-m-d" .CreateTime}}</td>
+                <td>{{date "Y-m-d H:i" .CreateTime}}</td>
               </tr>
               {{end}}
             </tbody>

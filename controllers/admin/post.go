@@ -3,7 +3,6 @@ package admin
 import (
 	"fmt"
 	"regexp"
-	"strings"
 	"time"
 
 	"blog/models"
@@ -13,11 +12,9 @@ import (
 
 // PostSubmit 提交文章
 func PostSubmit(ctx *context.Context) {
-	resp := models.RespJSON{}
-
 	post := &models.Post{}
 
-	post.Slug = strings.Trim(ctx.Req.PostFormValue("slug"), " ")
+	post.Slug = ctx.PostString("slug")
 	if len(post.Slug) > 0 {
 		r := regexp.MustCompile("^[\\w-]+$")
 		if !r.MatchString(post.Slug) {
@@ -26,7 +23,7 @@ func PostSubmit(ctx *context.Context) {
 		}
 	}
 
-	publishTime := strings.Trim(ctx.Req.PostFormValue("publish_time"), " ")
+	publishTime := ctx.PostString("publish_time")
 	if len(publishTime) > 0 {
 		r := regexp.MustCompile("^14\\d{8}$")
 		if !r.MatchString(publishTime) {
@@ -35,16 +32,18 @@ func PostSubmit(ctx *context.Context) {
 		}
 	}
 
-	post.Title = strings.Trim(ctx.Req.PostFormValue("title"), " ")
-	post.Content = ctx.Req.PostFormValue("content")
-	post.Type = ctx.Req.PostFormValue("type")
-	post.Status = ctx.Req.PostFormValue("status")
+	post.Title = ctx.PostString("title", "未命名文档")
+	post.Content = ctx.PostString("content")
+	post.Type = ctx.PostString("type", "post")
+	post.Status = ctx.PostString("status", "publish")
 
-	if len(post.Title) == 0 {
-		post.Title = "未命名"
-	}
+	// 分类 和 标签
+	// cates := ctx.PostString("cates")
+	// tags := ctx.PostString("tags")
+
 	post.CreateTime = time.Now().Unix()
 	post.UpdateTime = post.CreateTime
+
 	if len(publishTime) > 0 {
 		post.PublishTime = utility.Str2Int64(publishTime)
 	} else {
@@ -54,13 +53,11 @@ func PostSubmit(ctx *context.Context) {
 
 	err := post.Create()
 	if err != nil {
-		resp.Code = "401"
-		resp.Msg = err.Error()
-		ctx.JSON(200, resp)
+		ctx.RespJSON("500", "写入数据库出错"+err.Error())
 		return
 	}
 
-	ctx.RespJSON("200", "发布成功", ctx.URLFor("home"))
+	ctx.RespJSON("200", "发布成功", ctx.URLFor("postManage"))
 	return
 }
 
@@ -99,5 +96,23 @@ func PostManage(ctx *context.Context) {
 	ctx.Data["Styles"] = []string{"admin/css/post_list.css"}
 	ctx.Data["Scripts"] = []string{"admin/js/index.js", "admin/js/util.js"}
 	ctx.HTMLSet(200, "admin", "post_list")
+	return
+}
+
+// PostDelete 删除文章
+func PostDelete(ctx *context.Context) {
+	ids := ctx.PostString("ids")
+	if len(ids) == 0 {
+		ctx.RespJSON("没有删除任何分类")
+		return
+	}
+
+	err := models.DeletePosts(ids)
+	if err != nil {
+		ctx.RespJSON("500", "内部服务错误")
+		return
+	}
+
+	ctx.RespJSON("200", "删除文章成功", ctx.URLFor("postManage"))
 	return
 }

@@ -29,7 +29,7 @@ func Cate(ctx *context.Context) {
 
 // DeleteCate 删除分类操作
 func DeleteCate(ctx *context.Context) {
-	ids := ctx.PostString("id")
+	ids := ctx.PostString("ids")
 	if len(ids) == 0 {
 		ctx.RespJSON("没有删除任何分类")
 		return
