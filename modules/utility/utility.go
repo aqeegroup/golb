@@ -79,3 +79,17 @@ func Replace(s string, o interface{}, n string) string {
 	}
 	return s
 }
+
+// StringSplitInt64 给一个字符串 指定分隔符 返回分割之后的 int64 数组
+func StringSplitInt64(s, sep string) []int64 {
+	i := []int64{}
+	str := strings.Split(s, sep)
+	for _, temp := range str {
+		iTemp := Str2Int64(temp)
+		if iTemp > 0 {
+			i = append(i, iTemp)
+		}
+	}
+
+	return i
+}

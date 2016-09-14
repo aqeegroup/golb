@@ -54,7 +54,7 @@ func CreateOrUpdateCate(ctx *context.Context) {
 	cate.Name = ctx.PostString("name")
 	cate.Slug = ctx.PostString("slug", cate.Name)
 	cate.ParentID = ctx.PostInt64("parent_id")
-	cate.Type = "post"
+	cate.Type = "category"
 
 	if len(cate.Name) == 0 {
 		ctx.RespJSON("400", "分类名称不能为空")

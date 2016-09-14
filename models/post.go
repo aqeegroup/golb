@@ -45,7 +45,10 @@ func (PostDetail) TableName() string {
 }
 
 // Create 创建文章
-func (p *Post) Create() error {
+func (p *Post) Create(cates string) error {
+
+	// 对分类的处理
+	cateIds := utility.StringSplitInt64(cates, ",")
 
 	// 有自定义缩略名的话 要处理特殊字符
 	if len(p.Slug) > 0 {
@@ -80,12 +83,21 @@ func (p *Post) Create() error {
 		}
 	}
 
-	// 插入
-	// cateIds := strings.Split(cates, ",")
-	// for _, cateId := range cateIds {
-	// 	relationship := models.Relationship{}
-	// 	post.Cates.Relationship = append()
-	// }
+	// 插入分类
+	relationships := []Relationship{}
+	for _, cateID := range cateIds {
+		relationships = append(relationships, Relationship{
+			MetaID: cateID,
+			PostID: p.ID,
+		})
+	}
+	if len(relationships) > 0 {
+		_, err := s.Insert(&relationships)
+		if err != nil {
+			s.Rollback()
+			return err
+		}
+	}
 
 	err = s.Commit()
 	if err != nil {
@@ -126,7 +138,7 @@ func FindPostBySlug(slug string) (*Post, error) {
 		return nil, fmt.Errorf("没有找到这篇文章: %s", slug)
 	}
 
-	err = FindCateAndTagByPostID(post)
+	err = post.FindCateAndTagByPostID()
 
 	log.Println(post)
 
@@ -151,20 +163,21 @@ func FindPosts(page, limit int) (*[]PostDetail, error) {
 }
 
 // FindPostsDetail 查询所有文章详情带分页
-func FindPostsDetail(page, limit int) (*[]PostDetail, error) {
+func FindPostsDetail(page, limit int) ([]*PostDetail, error) {
 	if page > 0 {
 		page = page - 1
 	}
 	offset := page * limit
-	posts := &[]PostDetail{}
+	posts := make([]*PostDetail, 0, limit)
 	err := x.Where("status=?", "publish").
 		Join("LEFT", "user", "post.author_id = user.id").
 		And("type=?", "post").
 		Limit(limit, offset).
 		Desc("publish_time").
-		Find(posts)
-	for _, post := range *posts {
-		err := FindCateAndTagByPostID(&post.Post)
+		Find(&posts)
+
+	for i := range posts {
+		err := posts[i].FindCateAndTagByPostID()
 		if err != nil {
 			return posts, err
 		}
@@ -220,4 +233,26 @@ func slugNameCheck(s string) (string, error) {
 	}
 
 	return s, nil
+}
+
+// FindCateAndTagByPostID 查询文章的 tag 和 category
+func (p *Post) FindCateAndTagByPostID() error {
+	log.Println(p.ID)
+	metas, err := FindMetasByPostID(p.ID)
+	log.Println(metas)
+	if err != nil {
+		return err
+	}
+
+	for _, meta := range *metas {
+		if meta.Type == "category" {
+			p.Cates = append(p.Cates, meta)
+			p.CateNames = append(p.CateNames, meta.Name)
+		} else if meta.Type == "tag" {
+			p.Tags = append(p.Tags, meta)
+			p.TagNames = append(p.TagNames, meta.Name)
+		}
+	}
+	log.Println(p.CateNames)
+	return nil
 }

@@ -29,7 +29,11 @@
                 <td>{{.Title}}</td>
                 <td>todo</td>
                 <td>{{.Author.Username}}</td>
-                <td>{{join .CateNames ", "}}</td>
+                <td>
+                  {{range $index, $cate := .Cates}}
+                  {{if gt $index 0}}|{{end}}<a href="{{URLFor "postManage"}}">{{.Name}}</a> 
+                  {{end}}
+                </td>
                 <td>{{date "Y-m-d H:i" .CreateTime}}</td>
               </tr>
               {{end}}

@@ -1,7 +1,6 @@
 package admin
 
 import (
-	"fmt"
 	"regexp"
 	"time"
 
@@ -38,7 +37,7 @@ func PostSubmit(ctx *context.Context) {
 	post.Status = ctx.PostString("status", "publish")
 
 	// 分类 和 标签
-	// cates := ctx.PostString("cates")
+	cates := ctx.PostString("cates")
 	// tags := ctx.PostString("tags")
 
 	post.CreateTime = time.Now().Unix()
@@ -51,7 +50,7 @@ func PostSubmit(ctx *context.Context) {
 	}
 	post.AuthorID = ctx.Session.Get("uid").(int64)
 
-	err := post.Create()
+	err := post.Create(cates)
 	if err != nil {
 		ctx.RespJSON("500", "写入数据库出错"+err.Error())
 		return
@@ -86,7 +85,7 @@ func PostManage(ctx *context.Context) {
 	ctx.Data["ManageActive"] = "active toggle"
 
 	posts, err := models.FindPostsDetail(1, 10)
-	fmt.Println(posts)
+
 	if err != nil {
 		ctx.Handle(500, "", err)
 		return

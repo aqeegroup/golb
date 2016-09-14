@@ -75,7 +75,7 @@ $(document).ready(function () {
 
   // 提交文章
   $('#publish').click(function () {
-    var $btn = $(this).button('loading');
+    var btn = $(this).button('loading');
     var post = {};
     post.title = $('#post-title').val();
     post.content = $('#post-content').val();
@@ -84,21 +84,20 @@ $(document).ready(function () {
     post.slug = $('#slug').val()
 
     var cateSelected = [];
-    $('.cate input').each(function() {
-      cateSelected.append($(this).val());
+    $('.cate input:checked').each(function() {
+      cateSelected.push($(this).val());
     });
 
     post.cates = cateSelected.join(',');
 
-    $.post('/admin/post', post, function (result) {
-      if (result.code == 200) {
-        pop(result.msg);
-        result.redirect && (window.location.href = result.redirect);
-
-      } else {
-        pop(result.msg);
+    $.post('/admin/post', post, function (data) {
+      pop(data.msg);      
+      if (data.code == 200) {
+        setTimeout(function () {
+          data.redirect && (window.location.href = data.redirect);                              
+        }, 1000);  
       }
-      $btn.button('reset');
+      btn.button('reset');
     });
   });
 
@@ -158,7 +157,7 @@ $(document).ready(function () {
           Util.close();
           setTimeout(function () {
             data.redirect && (window.location.href = data.redirect);                              
-          }, 1500);            
+          }, 1000);            
         }
       });
     });
@@ -179,7 +178,7 @@ $(document).ready(function () {
           Util.close();
           setTimeout(function () {
             data.redirect && (window.location.href = data.redirect);                              
-          }, 1500);
+          }, 1000);
         }
       });
     });
