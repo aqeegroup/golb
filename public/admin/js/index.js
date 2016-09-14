@@ -19,21 +19,27 @@ $(document).ready(function () {
   $('#sidebar-control').click(function () {
     $('body').toggleClass('sidebar-toggle');
   });
+
+  var clicking = false;
   $('.sub-menu').click(function () {
+    if (clicking) return;
+    clicking = true;
     var ul = $(this).children('ul');
     var height = ul.height();
     // console.log(height);
     if (ul.css('display') == 'none') {
       $(this).addClass('toggle');
       ul.css({ display: 'block', height: 0 });
-      ul.animate({ 'height': height }, 300);
-
+      ul.animate({ 'height': height }, 300, function() {
+        clicking = false;        
+      });
     } else {
       $(this).removeClass('toggle');
       ul.animate({ 'height': 0 }, 300, function () {
         ul.css({ display: 'none', height: height });
+        clicking = false;
       });
-    }
+    }    
   });
 
   // 文章右侧选项切换
