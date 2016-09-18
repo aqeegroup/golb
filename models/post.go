@@ -251,11 +251,6 @@ func View(id int) error {
 	return err
 }
 
-// CountPost 统计全部文章数目
-func CountPost() (int64, error) {
-	return x.Count(&Post{})
-}
-
 func slugNameCheck(s string) (string, error) {
 	count := 1
 

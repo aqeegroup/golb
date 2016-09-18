@@ -1,4 +1,4 @@
-{{template "header"}}
+{{template "header" .}}
   <div class="body">
     <div class="container">
       <div class="row">
@@ -23,23 +23,23 @@
             <div class="pages">
               <nav>
                 <ul class="pagination">
-                  <li>
-                    <a href="#" aria-label="Previous">
-                      <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  </li>
-                  <li><a href="javascript:void(0)">1</a></li>
-                  <li class="active"><a href="#">2</a></li>
-                  <li><a href="#">3</a></li>
-                  <li><a href="#">4</a></li>
-                  <li><a href="#">5</a></li>
-                  <li class="disabled"><a>...</a></li>
-                  <li><a href="#">15</a></li>
-                  <li>
-                    <a href="#" aria-label="Next">
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  </li>
+                  {{if .Page.HasPrevious}}
+                  <li><a href="/page/{{.Page.Previous}}">&laquo;</a></li>
+                  {{end}}
+                  {{range .Page.Pages}}
+                  {{if eq .Num -1}}
+                  <li class="disabled"><span>...</span></li>                             
+                  {{else}}
+                    {{if .IsCurrent}}
+                    <li class="active"><span>{{.Num}}</span></li>
+                    {{else}}
+                    <li><a href="/page/{{.Num}}">{{.Num}}</a></li>              
+                    {{end}}
+                    {{end}}
+                  {{end}}
+                  {{if .Page.HasNext}}
+                    <li><a href="/page/{{.Page.Next}}">&raquo;</a></li>
+                  {{end}}
                   <div class="clear"></div>
                 </ul>
               </nav>

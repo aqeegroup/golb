@@ -75,6 +75,7 @@ func routesInit() {
 
 	// 前端页面路由
 	m.Get("/", home.Index).Name("home")
+	m.Get("/page/:page:int", home.Index).Name("page")
 	m.Get("/post/:slug([\\w-]+)", home.Detail).Name("postDetail")
 
 	// 后台路由组

@@ -70,3 +70,16 @@ func DeleteMetas(ids string) (int64, error) {
 	id := strings.Split(ids, ",")
 	return x.In("id", id).Delete(&Meta{})
 }
+
+// CatesCount 统计分类个数
+func CatesCount() (int, error) {
+	count, err := x.Where("type=?", "category").Count(&Meta{})
+	return int(count), err
+}
+
+// TagsCount 统计标签个数
+func TagsCount() (int, error) {
+	count, err := x.Where("type=?", "tag").Count(&Meta{})
+	return int(count), err
+
+}
