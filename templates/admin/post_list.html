@@ -11,7 +11,7 @@
     <div class="post-manage">
       <div class="row">
         <div class="col-sm-12">
-          <table id="post-table" class="table table-hover">
+          <table id="post-table" class="table table-hover" style="margin-bottom: 0;">
             <thead>
               <tr>
                 <th><input id="select-all" type="checkbox"></th>
@@ -38,8 +38,30 @@
               </tr>
               {{end}}
             </tbody>
-
           </table>
+        </div>
+        <div class="col-sm-12">
+          <nav class="">
+            <ul class="pagination">
+              {{if .Page.HasPrevious}}
+              <li><a href="?page={{.Page.Previous}}">&laquo;</a></li>
+              {{end}}
+              {{range .Page.Pages}}
+              {{if eq .Num -1}}
+                <li><span>...</span></li>                
+              {{else}}
+                {{if .IsCurrent}}
+                <li class="active"><span>{{.Num}}</span></li>
+                {{else}}
+                <li><a href="?page={{.Num}}">{{.Num}}</a></li>              
+                {{end}}
+                {{end}}
+              {{end}}
+              {{if .Page.HasNext}}
+                <li><a href="?page={{.Page.Next}}">&raquo;</a></li>
+              {{end}}
+            </ul>
+          </nav>
         </div>
       </div>
 

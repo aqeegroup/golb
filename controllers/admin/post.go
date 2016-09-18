@@ -84,13 +84,25 @@ func PostManage(ctx *context.Context) {
 	ctx.Data["PostActive"] = "active"
 	ctx.Data["ManageActive"] = "active toggle"
 
-	posts, err := models.FindPostsDetail(1, 10)
+	page := ctx.GetInt("page", 1)
+	limit := ctx.GetInt("limit", 10)
+	if limit == 0 {
+		limit = 10
+	}
 
+	posts, err := models.FindPostsDetail(page, limit, true)
 	if err != nil {
 		ctx.Handle(500, "", err)
 		return
 	}
 	ctx.Data["Posts"] = posts
+
+	p, err := models.PostsPagination(page, limit, true)
+	if err != nil {
+		ctx.Handle(500, "", err)
+		return
+	}
+	ctx.Data["Page"] = p
 
 	ctx.Data["Styles"] = []string{"admin/css/post_list.css"}
 	ctx.Data["Scripts"] = []string{"admin/js/index.js", "admin/js/util.js"}

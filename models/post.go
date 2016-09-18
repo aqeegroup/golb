@@ -1,11 +1,14 @@
 package models
 
 import (
-	"blog/modules/utility"
 	"fmt"
 	"log"
 	"strconv"
 	"strings"
+
+	"github.com/Unknwon/paginater"
+
+	"blog/modules/utility"
 )
 
 // Post 文章
@@ -75,8 +78,7 @@ func (p *Post) Create(cates string) error {
 	// 如果缩略名为空 则默认为id
 	if len(p.Slug) == 0 {
 		p.Slug = strconv.Itoa(int(p.ID))
-
-		_, err = s.ID(p.ID).Update(p)
+		_, err = s.ID(p.ID).Cols("slug").Update(p)
 		if err != nil {
 			s.Rollback()
 			return err
@@ -116,7 +118,7 @@ func DeletePosts(ids string) error {
 
 // 查询是否有相同缩略名的文章
 func countSlug(s string, id ...int) (int, error) {
-	fmt.Println(s)
+	// fmt.Println(s)
 	session := x.Where("slug=?", s)
 
 	if len(id) >= 1 {
@@ -163,18 +165,27 @@ func FindPosts(page, limit int) (*[]PostDetail, error) {
 }
 
 // FindPostsDetail 查询所有文章详情带分页
-func FindPostsDetail(page, limit int) ([]*PostDetail, error) {
+func FindPostsDetail(page, limit int, isAdmin bool) ([]*PostDetail, error) {
+	var err error
 	if page > 0 {
 		page = page - 1
 	}
 	offset := page * limit
 	posts := make([]*PostDetail, 0, limit)
-	err := x.Where("status=?", "publish").
-		Join("LEFT", "user", "post.author_id = user.id").
+
+	session := x.NewSession()
+	if !isAdmin {
+		session.Where("status=?", "publish")
+	}
+	err = session.Join("LEFT", "user", "post.author_id = user.id").
 		And("type=?", "post").
 		Limit(limit, offset).
 		Desc("publish_time").
 		Find(&posts)
+
+	if err != nil {
+		return posts, err
+	}
 
 	for i := range posts {
 		err := posts[i].FindCateAndTagByPostID()
@@ -184,6 +195,33 @@ func FindPostsDetail(page, limit int) ([]*PostDetail, error) {
 	}
 
 	return posts, err
+}
+
+// PostsCount 文章数统计
+func PostsCount(isAdmin bool) (int, error) {
+	var (
+		count int64
+		err   error
+	)
+	if isAdmin {
+		count, err = x.Count(&Post{})
+	} else {
+		count, err = x.Where("status=?", "publish").Count(&Post{})
+	}
+
+	return int(count), err
+}
+
+// PostsPagination 文章分页
+func PostsPagination(page, limit int, isAdmin bool) (*paginater.Paginater, error) {
+	count, err := PostsCount(isAdmin)
+	if err != nil {
+		return nil, err
+	}
+
+	p := paginater.New(count, limit, page, 10)
+
+	return p, nil
 }
 
 // LatestPosts 最近文章
@@ -237,9 +275,9 @@ func slugNameCheck(s string) (string, error) {
 
 // FindCateAndTagByPostID 查询文章的 tag 和 category
 func (p *Post) FindCateAndTagByPostID() error {
-	log.Println(p.ID)
+	// log.Println(p.ID)
 	metas, err := FindMetasByPostID(p.ID)
-	log.Println(metas)
+	// log.Println(metas)
 	if err != nil {
 		return err
 	}
@@ -253,6 +291,6 @@ func (p *Post) FindCateAndTagByPostID() error {
 			p.TagNames = append(p.TagNames, meta.Name)
 		}
 	}
-	log.Println(p.CateNames)
+
 	return nil
 }

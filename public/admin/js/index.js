@@ -100,10 +100,10 @@ $(document).ready(function () {
       pop(data.msg);      
       if (data.code == 200) {
         setTimeout(function () {
+          btn.button('reset');
           data.redirect && (window.location.href = data.redirect);                              
         }, 1000);  
       }
-      btn.button('reset');
     });
   });
 

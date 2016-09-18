@@ -44,6 +44,14 @@ func FileExist(filename string) bool {
 // Str2Int64 字符串转 int64
 func Str2Int64(s string) int64 {
 	i, _ := strconv.ParseInt(s, 10, 64)
+
+	return i
+}
+
+// Str2Int 字符串转 int
+func Str2Int(s string) int {
+	i, _ := strconv.Atoi(s)
+
 	return i
 }
 

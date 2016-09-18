@@ -149,9 +149,44 @@ func (ctx *Context) PostString(args ...string) string {
 // PostInt64 post 取值 返回int64
 func (ctx *Context) PostInt64(k string, defaultValue ...int64) int64 {
 	s := ctx.Req.PostFormValue(k)
-	s = strings.TrimSpace(s)
+
 	if len(s) == 0 && len(defaultValue) > 0 {
 		return defaultValue[0]
 	}
 	return utility.Str2Int64(s)
+}
+
+// GetInt 获取 GET 参数
+func (ctx *Context) GetInt(k string, defaultValue ...int) int {
+	s := ctx.Req.FormValue(k)
+	s = strings.TrimSpace(s)
+
+	if len(s) == 0 && len(defaultValue) > 0 {
+		return defaultValue[0]
+	}
+
+	return utility.Str2Int(s)
+}
+
+// GetString GET 参数取值 返回 string
+func (ctx *Context) GetString(args ...string) string {
+	var (
+		key          string
+		defaultValur string
+	)
+	switch len(args) {
+	case 0:
+		return defaultValur
+	case 1:
+		key = args[0]
+	default:
+		key = args[0]
+		defaultValur = args[1]
+	}
+	s := ctx.Req.FormValue(key)
+	s = strings.TrimSpace(s)
+	if len(s) == 0 {
+		return defaultValur
+	}
+	return s
 }
