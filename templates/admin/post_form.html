@@ -1,0 +1,103 @@
+<div class="row">
+  <div class="col-md-9">
+    <div class="write-field">
+      <div role="form">
+        <input type="hidden" value="{{.Post.ID}}" id="id">
+        <div class="form-group">
+          <input type="text" class="form-control radius-0" id="post-title" placeholder="请输入标题" value="{{.Post.Title}}">
+        </div>
+          <p class="slug">&nbsp;jiayx.net/post/<input id="slug" type="text" value="{{.Post.Slug}}">.html</p>
+        <div class="form-group">
+          <textarea class="form-control radius-0" rows="20" id="post-content" placeholder="这里写内容">{{.Post.Content}}</textarea>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <p id="auto-submit-info">自动保存于 2016-09-08 12:34</p>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group submit-button clearfix">
+              <button id="draft" class="btn btn-default radius-0">保存草稿</button>
+              <button id="publish" class="btn btn-primary radius-0">发布文章</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="post-options">
+      <ul class="clearfix">
+        <li class="active" data-tab="post-option">选项</li>
+        <li data-tab="post-attachment">附件</li>
+      </ul>
+      <div id="post-option-cont">
+        <h5>发布日期</h5>
+        <div class="input-group date" id="datetimepicker">
+          <input type="text" class="form-control radius-0" name="create_time" />
+          <span class="input-group-addon radius-0">
+            <span class="glyphicon glyphicon-calendar"></span>
+          </span>
+        </div>
+        <h5>分类</h5>
+        <div class="cate">
+          {{range .Cates}}
+          {{$inArray := true}}
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" value="{{.ID}}" {{if $inArray}}checked{{end}}>{{.Name}}
+            </label>
+          </div>
+          {{end}}
+          <!--二级分类
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" value="">分类1
+            </label>
+            <ul>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" value="">子分类
+                </label>
+              </div>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" value="">子分类
+                </label>
+              </div>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" value="">子分类
+                </label>
+              </div>
+            </ul>
+          </div>-->
+        </div>
+        <h5>选择已有标签</h5>
+        <div class="tags-content">
+          <span class="label">Success <i class="iconfont icon-duigou"></i></span>
+          <span class="label">sa <i class="iconfont icon-duigou"></i></span>
+          <span class="label">dsds <i class="iconfont icon-duigou"></i></span>
+          <span class="label">Success <i class="iconfont icon-duigou"></i></span>
+          <span class="label">Succasdaddess <i class="iconfont icon-duigou"></i></span>
+          <span class="label">颠三倒四 <i class="iconfont icon-duigou"></i></span>
+          <span class="label">丰富的 <i class="iconfont icon-duigou"></i></span>
+        </div>
+        <h5>新增标签</h5>
+        <div class="post-tags">
+          <ul>
+            <li class="tag-input-li" style="margin: 0;">
+              <input id="tag-input" type="text" placeholder="请输入标签名按回车确定">
+            </li>
+            
+          </ul>
+        </div>
+
+      </div>
+      <div id="post-attachment-cont" style="display: none;">
+        <div class="upload-area">
+        拖拽文件到这里上传
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

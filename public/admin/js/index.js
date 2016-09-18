@@ -83,6 +83,7 @@ $(document).ready(function () {
   $('#publish').click(function () {
     var btn = $(this).button('loading');
     var post = {};
+    post.id = $('#id').val();
     post.title = $('#post-title').val();
     post.content = $('#post-content').val();
     post.type = 'post';
@@ -149,13 +150,15 @@ $(document).ready(function () {
 
   // 删除分类
   $('#delete-cate').click(function () {
-
+    var checked = [];
+    $('#cates').find('input:checked').each(function () {
+      checked.push($(this).val());
+    });
+    if (checked.length == 0) {
+      pop('请选择要删除的分类');
+      return;
+    }
     Util.confirm('确认删除选中的分类吗？', function () {
-      var checked = [];
-      $('#cates').find('input:checked').each(function () {
-        checked.push($(this).val());
-      });
-
       // console.log(checked);
       $.post('/admin/cate/del', {ids: checked.join(',')}, function(data) {
         pop(data.msg);
@@ -171,13 +174,16 @@ $(document).ready(function () {
 
   // 删除文章
   $('#delete-post').click(function () {
+    var checked = [];
+    $('#post-list').find('input:checked').each(function () {
+      checked.push($(this).val());
+    });
+    if (checked.length == 0) {
+      pop('请选择要删除的文章');
+      return;
+    }
     Util.confirm('确认删除选中的文章吗？', function () {
-      var checked = [];
-      $('#post-list').find('input:checked').each(function () {
-        checked.push($(this).val());
-      });
-      console.log(checked);
-
+      // console.log(checked);
       $.post('/admin/post/del', {ids: checked.join(',')}, function(data) {
         pop(data.msg);        
         if (data.code == '200') {

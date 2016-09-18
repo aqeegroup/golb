@@ -147,6 +147,21 @@ func FindPostBySlug(slug string) (*Post, error) {
 	return post, err
 }
 
+// FindPostByID 根据 id 查找文章
+func FindPostByID(id int64) (*Post, error) {
+	post := &Post{}
+	has, err := x.Where("id=?", id).And("type=?", "post").Get(post)
+	if !has {
+		return nil, fmt.Errorf("没有找到这篇文章: %d", id)
+	}
+	if err != nil {
+		return post, err
+	}
+	err = post.FindCateAndTagByPostID()
+
+	return post, err
+}
+
 // FindPosts 查询所有文章带分页
 func FindPosts(page, limit int) (*[]PostDetail, error) {
 	if page > 0 {

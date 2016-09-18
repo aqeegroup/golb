@@ -47,11 +47,12 @@ func newMacaron() {
 		// 这个配置将来要从数据库取
 		Directory: models.Options.Get("theme"),
 		Funcs: []template.FuncMap{map[string]interface{}{
-			"URLFor": m.URLFor,        // url 生成函数
-			"date":   utility.Date,    // 时间格式化函数
-			"asset":  models.AssetURL, // 生成静态文件链接
-			"join":   strings.Join,    // 生成静态文件链接
-			"trim":   strings.Trim,
+			"URLFor":  m.URLFor,        // url 生成函数
+			"date":    utility.Date,    // 时间格式化函数
+			"asset":   models.AssetURL, // 生成静态文件链接
+			"join":    strings.Join,    // 生成静态文件链接
+			"trim":    strings.Trim,
+			"InArray": utility.InArray,
 		}},
 	}, "admin:templates/admin"))
 
@@ -90,6 +91,7 @@ func routesInit() {
 			m.Post("/", admin.PostSubmit)
 			m.Get("/manage/", admin.PostManage).Name("postManage")
 			m.Post("/del/", admin.PostDelete).Name("PostDelete")
+			m.Get("/:id:int", admin.PostUpdate).Name("postUpdate")
 
 		}, admin.CheckLogin)
 

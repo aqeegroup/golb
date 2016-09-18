@@ -78,6 +78,34 @@ func WritePage(ctx *context.Context) {
 	return
 }
 
+// PostUpdate 更新文章
+func PostUpdate(ctx *context.Context) {
+	id := ctx.ParamsInt64(":id")
+	if id <= 0 {
+		ctx.Handle(404, "404 Not Found.", nil)
+		return
+	}
+	post, err := models.FindPostByID(id)
+	if err != nil {
+		ctx.Handle(500, "", nil)
+		return
+	}
+	ctx.Data["Post"] = post
+
+	cates, err := models.FindAllCates()
+	if err != nil {
+		ctx.Handle(500, "", nil)
+	}
+	ctx.Data["Cates"] = cates
+
+	ctx.Data["HideSidebar"] = true
+	ctx.Data["Title"] = "文章编辑"
+	ctx.Data["Scripts"] = []string{"admin/js/index.js"}
+
+	ctx.HTMLSet(200, "admin", "post_update")
+	return
+}
+
 // PostManage 管理文章页面
 func PostManage(ctx *context.Context) {
 	ctx.Data["Title"] = "文章管理"
@@ -114,7 +142,7 @@ func PostManage(ctx *context.Context) {
 func PostDelete(ctx *context.Context) {
 	ids := ctx.PostString("ids")
 	if len(ids) == 0 {
-		ctx.RespJSON("没有删除任何分类")
+		ctx.RespJSON("没有删除任何文章")
 		return
 	}
 

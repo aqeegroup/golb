@@ -26,12 +26,12 @@
               {{range .Posts}}
               <tr>
                 <td><input type="checkbox" value="{{.ID}}"></td>
-                <td>{{.Title}}</td>
+                <td><a href="{{printf "%d" .ID | URLFor "postUpdate" ":id"}}">{{.Title}}</a></td>
                 <td>todo</td>
                 <td>{{.Author.Username}}</td>
                 <td>
                   {{range $index, $cate := .Cates}}
-                  {{if gt $index 0}}|{{end}}<a href="{{URLFor "postManage"}}">{{.Name}}</a> 
+                  {{if gt $index 0}}|{{end}}<span>{{.Name}}</span> 
                   {{end}}
                 </td>
                 <td>{{date "Y-m-d H:i" .CreateTime}}</td>
