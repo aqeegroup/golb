@@ -1,6 +1,10 @@
 package models
 
-import "strings"
+import (
+	"strings"
+
+	"github.com/go-xorm/xorm"
+)
 
 // Meta 文章的属性 - 分类、标签
 type Meta struct {
@@ -65,10 +69,16 @@ func FindAllCates() (*[]Meta, error) {
 	return cates, err
 }
 
-// DeleteMetas 根据 id 删除标签 或者 分类
+// DeleteMetas 根据 id 删除标签或分类
 func DeleteMetas(ids string) (int64, error) {
 	id := strings.Split(ids, ",")
+
 	return x.In("id", id).Delete(&Meta{})
+}
+
+// DeleteMetasByPostID 根据 postId 删除标签和分类 - 估计没用
+func DeleteMetasByPostID(s *xorm.Session, postID int64) (int64, error) {
+	return s.Where("post_id=?", postID).Delete(&Relationship{})
 }
 
 // CatesCount 统计分类个数

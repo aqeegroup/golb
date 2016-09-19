@@ -13,6 +13,7 @@ import (
 func PostSubmit(ctx *context.Context) {
 	post := &models.Post{}
 
+	post.ID = ctx.PostInt64("id")
 	post.Slug = ctx.PostString("slug")
 	if len(post.Slug) > 0 {
 		r := regexp.MustCompile("^[\\w-]+$")

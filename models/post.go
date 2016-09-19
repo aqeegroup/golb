@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/Unknwon/paginater"
+	"github.com/go-xorm/xorm"
 
 	"blog/modules/utility"
 )
@@ -50,6 +51,7 @@ func (PostDetail) TableName() string {
 // Create 创建文章
 func (p *Post) Create(cates string) error {
 
+	var err error
 	// 对分类的处理
 	cateIds := utility.StringSplitInt64(cates, ",")
 
@@ -57,8 +59,7 @@ func (p *Post) Create(cates string) error {
 	if len(p.Slug) > 0 {
 		p.Slug = utility.SlugNameFormat(p.Slug)
 		// 处理完成要查询是否有重复
-		var err error
-		p.Slug, err = slugNameCheck(p.Slug)
+		p.Slug, err = slugNameCheck(p.Slug, p.ID)
 		if err != nil {
 			return err
 		}
@@ -69,7 +70,11 @@ func (p *Post) Create(cates string) error {
 	defer s.Close()
 	s.Begin()
 
-	_, err := s.InsertOne(p)
+	if p.ID > 0 {
+		_, err = s.ID(p.ID).Update(p)
+	} else {
+		_, err = s.InsertOne(p)
+	}
 	if err != nil {
 		s.Rollback()
 		return err
@@ -85,6 +90,15 @@ func (p *Post) Create(cates string) error {
 		}
 	}
 
+	// 如果是更新
+	if p.ID > 0 {
+		// 删除
+		_, err = p.deleteMetas(s)
+		if err != nil {
+			s.Rollback()
+			return err
+		}
+	}
 	// 插入分类
 	relationships := []Relationship{}
 	for _, cateID := range cateIds {
@@ -94,7 +108,7 @@ func (p *Post) Create(cates string) error {
 		})
 	}
 	if len(relationships) > 0 {
-		_, err := s.Insert(&relationships)
+		_, err = s.Insert(&relationships)
 		if err != nil {
 			s.Rollback()
 			return err
@@ -109,6 +123,11 @@ func (p *Post) Create(cates string) error {
 	return nil
 }
 
+// deleteMetas 删除文章的标签和分类
+func (p *Post) deleteMetas(s *xorm.Session) (int64, error) {
+	return s.Where("post_id=?", p.ID).Delete(&Relationship{})
+}
+
 // DeletePosts 删除文章
 func DeletePosts(ids string) error {
 	id := strings.Split(ids, ",")
@@ -117,12 +136,12 @@ func DeletePosts(ids string) error {
 }
 
 // 查询是否有相同缩略名的文章
-func countSlug(s string, id ...int) (int, error) {
+func countSlug(s string, id int64) (int, error) {
 	// fmt.Println(s)
 	session := x.Where("slug=?", s)
 
-	if len(id) >= 1 {
-		session.And("id<>?", id[0])
+	if id > 0 {
+		session.And("id<>?", id)
 	}
 	count, err := session.Count(&Post{})
 	return int(count), err
@@ -266,13 +285,13 @@ func View(id int) error {
 	return err
 }
 
-func slugNameCheck(s string) (string, error) {
+func slugNameCheck(s string, id int64) (string, error) {
 	count := 1
 
 	temp := s
-	for i, err := countSlug(s); i > 0; i, err = countSlug(s) {
-		fmt.Println(i)
-		fmt.Println(count)
+	for i, err := countSlug(s, id); i > 0; i, err = countSlug(s, id) {
+		// fmt.Println(i)
+		// fmt.Println(count)
 		if err != nil {
 			return s, err
 		}
