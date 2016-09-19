@@ -41,7 +41,7 @@
         <h5>分类</h5>
         <div class="cate">
           {{range .Cates}}
-          {{$inArray := true}}
+          {{$inArray := InArray .Name $.Post.CateNames}}
           <div class="checkbox">
             <label>
               <input type="checkbox" value="{{.ID}}" {{if $inArray}}checked{{end}}>{{.Name}}

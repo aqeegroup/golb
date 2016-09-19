@@ -103,7 +103,7 @@ func StringSplitInt64(s, sep string) []int64 {
 }
 
 // InArray 判断数组里是否包含某个值
-func InArray(k interface{}, arr []interface{}) bool {
+func InArray(k string, arr []string) bool {
 	for _, v := range arr {
 		if k == v {
 			return true
