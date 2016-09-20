@@ -20,8 +20,8 @@ type Meta struct {
 	Children []Meta `xorm:"-"` // 子分类
 }
 
-// Create 创建一个分类或者标签
-func (m *Meta) Create() error {
+// CreateOrUpdate 创建一个分类或者标签
+func (m *Meta) CreateOrUpdate() error {
 	var err error
 	if m.ID > 0 {
 		_, err = x.Where("id=?", m.ID).Update(m)
@@ -33,8 +33,13 @@ func (m *Meta) Create() error {
 }
 
 // CateNameExist 判断分类 name 是否已经存在
-func CateNameExist(name string) (bool, error) {
-	count, err := x.Where("type=?", "post").And("name=?", name).Count(&Meta{})
+func (m *Meta) CateNameExist() (bool, error) {
+
+	s := x.Where("type=?", "category").And("name=?", m.Name)
+	if m.ID > 0 {
+		s.And("id<>?", m.ID)
+	}
+	count, err := s.Count(&Meta{})
 	if err != nil {
 		return false, err
 	}
@@ -43,8 +48,12 @@ func CateNameExist(name string) (bool, error) {
 }
 
 // CateSlugExist 判断分类 slug 是否已经存在
-func CateSlugExist(slug string) (bool, error) {
-	count, err := x.Where("type=?", "post").And("slug=?", slug).Count(&Meta{})
+func (m *Meta) CateSlugExist() (bool, error) {
+	s := x.Where("type=?", "category").And("slug=?", m.Slug)
+	if m.ID > 0 {
+		s.Where("id<>?", m.ID)
+	}
+	count, err := s.Count(&Meta{})
 	if err != nil {
 		return false, err
 	}

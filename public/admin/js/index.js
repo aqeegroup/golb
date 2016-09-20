@@ -130,8 +130,10 @@ $(document).ready(function () {
 
   // 新增分类
   $('#submit-cate').click(function () {
+    $('#cate-title').text('添加分类');
     var modal = $('#add-cate');
     var form = {};
+    form.id = modal.find('input[name=id]').val();
     form.name = modal.find('input[name=name]').val();
     form.slug = modal.find('input[name=slug]').val();
     form.parent_id = modal.find('select[name=parent]').val();
@@ -141,11 +143,27 @@ $(document).ready(function () {
       if (data.code == "200") {
         pop(data.msg);
         hideModal();
-        data.redirect && (window.location.href = data.redirect);        
+        setTimeout(function () {
+          data.redirect && (window.location.href = data.redirect);                              
+        }, 1000);         
       } else {
         pop(data.msg);
       }
     });
+  });
+
+  // 修改分类
+  $('#cates a').click(function () {
+    var modal = $('#add-cate');    
+    $('#cate-title').text('修改分类');
+    var cate = $(this).data('cate');
+    // console.log(cate);
+    modal.find('input[name=id]').val(cate.ID);
+    modal.find('input[name=name]').val(cate.Name);
+    modal.find('input[name=slug]').val(cate.Slug);
+    modal.find('select[name=parent]').val(cate.ParentID);
+    showModal('add-cate');
+    return false;
   });
 
   // 删除分类

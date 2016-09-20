@@ -17,6 +17,9 @@ a:hover, a:visited, a:link {
   /*color: #fff;*/
   text-decoration: none;
 }
+a:hover {
+  cursor: pointer;
+}
 
 input, select, .btn, .dropdown-menu {
   border-radius: 0;

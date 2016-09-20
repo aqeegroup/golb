@@ -3,6 +3,7 @@ package utility
 import (
 	"crypto/md5"
 	"encoding/hex"
+	"encoding/json"
 	"fmt"
 	"os"
 	"strconv"
@@ -110,4 +111,13 @@ func InArray(k string, arr []string) bool {
 		}
 	}
 	return false
+}
+
+// JSONEncode json转码
+func JSONEncode(v interface{}) string {
+	byt, err := json.Marshal(v)
+	if err != nil {
+		return ""
+	}
+	return string(byt)
 }

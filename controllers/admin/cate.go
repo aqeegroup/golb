@@ -3,6 +3,7 @@ package admin
 import (
 	"blog/models"
 	"blog/modules/context"
+	"log"
 )
 
 // Cate 分类列表页面
@@ -51,6 +52,7 @@ func UpdateCate(ctx *context.Context) {
 // CreateOrUpdateCate 创建或者更新分类
 func CreateOrUpdateCate(ctx *context.Context) {
 	cate := &models.Meta{}
+	cate.ID = ctx.PostInt64("id")
 	cate.Name = ctx.PostString("name")
 	cate.Slug = ctx.PostString("slug", cate.Name)
 	cate.ParentID = ctx.PostInt64("parent_id")
@@ -61,7 +63,8 @@ func CreateOrUpdateCate(ctx *context.Context) {
 		return
 	}
 
-	exist, err := models.CateNameExist(cate.Name)
+	exist, err := cate.CateNameExist()
+	log.Println(exist, err)
 	if err != nil {
 		ctx.RespJSON("500", "内部服务错误")
 		return
@@ -70,7 +73,7 @@ func CreateOrUpdateCate(ctx *context.Context) {
 		ctx.RespJSON("401", "分类名已存在")
 		return
 	}
-	exist, err = models.CateSlugExist(cate.Slug)
+	exist, err = cate.CateSlugExist()
 	if err != nil {
 		ctx.RespJSON("500", "内部服务错误")
 		return
@@ -80,14 +83,19 @@ func CreateOrUpdateCate(ctx *context.Context) {
 		return
 	}
 
+	log.Println(cate)
 	// 执行创建操作
-	err = cate.Create()
+	err = cate.CreateOrUpdate()
 	if err != nil {
 		ctx.RespJSON("500", "内部服务错误")
 		return
 	}
 
-	ctx.RespJSON("200", "添加分类成功", ctx.URLFor("cate"))
+	msg := "添加分类成功"
+	if cate.ID > 0 {
+		msg = "修改分类成功"
+	}
+	ctx.RespJSON("200", msg, ctx.URLFor("cate"))
 	return
 }
 

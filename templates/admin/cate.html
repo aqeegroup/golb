@@ -23,7 +23,7 @@
               {{range .Cates}}
               <tr>
                 <td><input type="checkbox" value="{{.ID}}"></td>
-                <td>{{.Name}}</td>
+                <td><a data-id="{{.ID}}" data-cate="{{JSONEncode .}}">{{.Name}}</a></td>
                 <td>暂不支持</td>
                 <td>{{.Slug}}</td>
                 <td>{{.Count}}</td>
