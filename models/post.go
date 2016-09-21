@@ -83,6 +83,14 @@ func (p *Post) Create(cates string) error {
 	// 如果缩略名为空 则默认为id
 	if len(p.Slug) == 0 {
 		p.Slug = strconv.Itoa(int(p.ID))
+
+		// 处理完成要查询是否有重复
+		p.Slug, err = slugNameCheck(p.Slug, p.ID)
+		if err != nil {
+			return err
+		}
+
+		// 确保没问题 再插入
 		_, err = s.ID(p.ID).Cols("slug").Update(p)
 		if err != nil {
 			s.Rollback()
