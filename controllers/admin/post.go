@@ -37,10 +37,6 @@ func PostSubmit(ctx *context.Context) {
 	post.Type = ctx.PostString("type", "post")
 	post.Status = ctx.PostString("status", "publish")
 
-	// 分类 和 标签
-	cates := ctx.PostString("cates")
-	// tags := ctx.PostString("tags")
-
 	post.CreateTime = time.Now().Unix()
 	post.UpdateTime = post.CreateTime
 
@@ -51,7 +47,12 @@ func PostSubmit(ctx *context.Context) {
 	}
 	post.AuthorID = ctx.Session.Get("uid").(int64)
 
-	err := post.Create(cates)
+	// 分类
+	cates := ctx.PostString("cates")
+	// 标签
+	tags := ctx.PostString("tags")
+
+	err := post.Create(cates, tags)
 	if err != nil {
 		ctx.RespJSON("500", "写入数据库出错"+err.Error())
 		return

@@ -61,16 +61,6 @@ func (m *Meta) CateSlugExist() (bool, error) {
 	return count > 0, nil
 }
 
-// TagNameExist 判断Tag name 是否已经存在
-func TagNameExist(name string) (bool, error) {
-	count, err := x.Where("type=?", "tag").And("name=?", name).Count(&Meta{})
-	if err != nil {
-		return false, err
-	}
-
-	return count > 0, nil
-}
-
 // FindAllCates 查询全部分类
 func FindAllCates() (*[]Meta, error) {
 	cates := &[]Meta{}
@@ -101,4 +91,25 @@ func TagsCount() (int, error) {
 	count, err := x.Where("type=?", "tag").Count(&Meta{})
 	return int(count), err
 
+}
+
+// TagNameExist 判断Tag name 是否已经存在
+func TagNameExist(name string) (bool, error) {
+	count, err := x.Where("type=?", "tag").And("name=?", name).Count(&Meta{})
+	if err != nil {
+		return false, err
+	}
+
+	return count > 0, nil
+}
+
+// CreateOrFindTag 查询 tag 或者插入 新增
+func CreateOrFindTag(tagNames []string) (*[]Meta, error) {
+	tags := make([]Meta, len(tagNames))
+
+	// 已经有的标签
+	hasTags := &[]Meta{}
+	err := x.Select("id, name").In("name", tagNames).Find(hasTags)
+
+	return hasTags, err
 }
