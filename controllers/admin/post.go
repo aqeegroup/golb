@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"fmt"
 	"regexp"
 	"time"
 
@@ -93,6 +94,7 @@ func PostUpdate(ctx *context.Context) {
 		return
 	}
 	ctx.Data["Post"] = post
+	fmt.Println(post)
 
 	cates, err := models.FindAllCates()
 	if err != nil {

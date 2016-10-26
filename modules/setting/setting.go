@@ -32,10 +32,12 @@ func init() {
 	file, err := exec.LookPath(os.Args[0])
 	if err != nil {
 		log.Println("获取文件可执行文件路径失败")
+		panic("获取文件可执行文件路径失败")
 	}
 
 	if AppPath, err = filepath.Abs(file); err != nil {
 		log.Println("获取文件可执行文件路径失败")
+		panic("获取文件可执行文件路径失败")
 	}
 }
 

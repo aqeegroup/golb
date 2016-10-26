@@ -52,14 +52,10 @@ func (PostDetail) TableName() string {
 func (p *Post) Create(cates, tags string) error {
 
 	var err error
-	// 对分类的处理
+	// 对分类名的处理
 	cateIds := utility.StringSplitInt64(cates, ",")
-	// 对标签的处理
+	// 对标签名的处理
 	tagNames := strings.Split(tags, ",")
-	_, err = CreateOrFindTag(tagNames)
-	if err != nil {
-		return err
-	}
 
 	// 有自定义缩略名的话 要处理特殊字符
 	if len(p.Slug) > 0 {
@@ -121,6 +117,18 @@ func (p *Post) Create(cates, tags string) error {
 			PostID: p.ID,
 		})
 	}
+	// 插入标签
+	postTags, err := CreateOrFindTag(tagNames)
+	if err != nil {
+		return err
+	}
+	for _, tag := range postTags {
+		relationships = append(relationships, Relationship{
+			MetaID: tag.ID,
+			PostID: p.ID,
+		})
+	}
+
 	// 需要记录条数的话 只需要在这里记下全部 meta 的id 然后 update 就好了
 	if len(relationships) > 0 {
 		_, err = s.Insert(&relationships)

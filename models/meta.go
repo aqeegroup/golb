@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"github.com/go-xorm/xorm"
+	"github.com/jiayx/go/stringutil"
 )
 
 // Meta 文章的属性 - 分类、标签
@@ -104,12 +105,33 @@ func TagNameExist(name string) (bool, error) {
 }
 
 // CreateOrFindTag 查询 tag 或者插入 新增
-func CreateOrFindTag(tagNames []string) (*[]Meta, error) {
-	tags := make([]Meta, len(tagNames))
-
+func CreateOrFindTag(tagNames []string) ([]Meta, error) {
 	// 已经有的标签
-	hasTags := &[]Meta{}
-	err := x.Select("id, name").In("name", tagNames).Find(hasTags)
+	hasTags := []Meta{}
+	err := x.Select("id, name").In("name", tagNames).Find(&hasTags)
+
+	var hasTagNames []string
+	for _, tag := range hasTags {
+		hasTagNames = append(hasTagNames, tag.Name)
+	}
+
+	var noHaveTags []Meta
+	for _, name := range tagNames {
+		if !stringutil.InArray(name, hasTagNames) {
+			tag := Meta{
+				Name: name,
+				Slug: name,
+				Type: "tag",
+			}
+			noHaveTags = append(noHaveTags, tag)
+		}
+	}
+
+	if _, err := x.Insert(noHaveTags); err != nil {
+		return nil, err
+	}
+
+	hasTags = append(hasTags, noHaveTags...)
 
 	return hasTags, err
 }
