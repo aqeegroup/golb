@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/go-macaron/session"
+	"github.com/jiayx/go/random"
 	"gopkg.in/macaron.v1"
 
 	"blog/controllers/admin"
@@ -54,6 +55,7 @@ func newMacaron() {
 			"trim":       strings.Trim,
 			"InArray":    utility.InArray,
 			"JSONEncode": utility.JSONEncode,
+			"RandInt":    random.Int,
 		}},
 	}, "admin:templates/admin"))
 
@@ -97,9 +99,13 @@ func routesInit() {
 		}, admin.CheckLogin)
 
 		m.Group("/cate", func() {
-			m.Get("/", admin.Cate).Name("cate")
+			m.Get("/", admin.Cate).Name("cateManage")
 			m.Post("/", admin.CreateOrUpdateCate).Name("cateCreateOrUpdate")
 			m.Post("/del/", admin.DeleteCate).Name("cateDel")
+		}, admin.CheckLogin)
+
+		m.Group("/tag", func() {
+			m.Get("/", admin.Tag).Name("tagManage")
 		}, admin.CheckLogin)
 
 	})

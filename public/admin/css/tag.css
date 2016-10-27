@@ -1,0 +1,28 @@
+.tag-manage {
+  position: relative;
+  background-color: #fff;
+  padding: 20px 20px;
+  margin-top: 20px;
+}
+
+.tag-manage>span {
+  background-color: #fff;
+  color: #666;
+  margin: 6px 2px;
+  display: inline-block;
+  border-radius: 1px;
+  font-size: 14px;
+  padding: .4em .8em;
+  position: relative;
+  cursor: pointer;
+}
+.tag-manage>span:hover {
+  background: #e6e6e6;
+}
+.tag-manage>span:hover + .tag-manage>span>i {
+  color: #eee;  
+}
+.tag-manage>span>i {
+  margin-left: 1em;
+  color: #fff;
+}

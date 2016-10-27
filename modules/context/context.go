@@ -40,6 +40,10 @@ func Contexter() macaron.Handler {
 		ctx.Data["Uid"] = sess.Get("uid")
 		ctx.Data["Username"] = sess.Get("username")
 
+		ctx.Data["TagColor"] = []string{
+			"default", "primary", "success", "info", "warning", "danger",
+		}
+
 		// 导航 active 控制 - 可以不要
 		ctx.Data["MainActive"] = ""
 		ctx.Data["ThemeActive"] = ""

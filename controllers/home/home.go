@@ -25,6 +25,13 @@ func Index(ctx *context.Context) {
 	}
 	ctx.Data["Posts"] = posts
 
+	tags, err := models.FindAllTags()
+	if err != nil {
+		ctx.Handle(500, "Internal Server Error", err)
+		return
+	}
+	ctx.Data["Tags"] = tags
+
 	p, err := models.PostsPagination(page, limit, false)
 	if err != nil {
 		ctx.Data["Title"] = "查询出错"

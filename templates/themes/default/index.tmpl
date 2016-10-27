@@ -67,13 +67,10 @@
               标签
             </div>
             <div class="tags-content">
-              <span class="label label-default">Success</span>
-              <span class="label label-success">sa</span>
-              <span class="label label-success">dsds</span>
-              <span class="label label-warning">Success</span>
-              <span class="label label-primary">Succasdaddess</span>
-              <span class="label label-success">颠三倒四</span>
-              <span class="label label-success">丰富的</span>
+              {{range .Tags}}
+              {{$rand := RandInt 6}}
+              <span class="label label-{{index $.TagColor $rand}}">{{.Name}}</span>
+              {{end}}
             </div>
           </div>
           <div class="recent">
