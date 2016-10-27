@@ -8,7 +8,7 @@
 
           <!-- 数据统计 -->
           <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-3">
               <a href="{{URLFor "postManage"}}">
                 <div class="count-board">
                   <p>文章</p>
@@ -16,7 +16,7 @@
                 </div>
               </a>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
               <a href="">
                 <div class="count-board">
                   <p>评论</p>
@@ -24,11 +24,19 @@
                 </div>
               </a>
             </div>
-            <div class="col-sm-4">
-              <a href="">
+            <div class="col-sm-3">
+              <a href="{{URLFor "cate"}}">
                 <div class="count-board">
                   <p>分类</p>
                   <h3>{{.CountCate}}</h3>
+                </div>
+              </a>
+            </div>
+            <div class="col-sm-3">
+              <a href="">
+                <div class="count-board">
+                  <p>标签</p>
+                  <h3>{{.CountTag}}</h3>
                 </div>
               </a>
             </div>

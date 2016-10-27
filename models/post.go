@@ -67,6 +67,10 @@ func (p *Post) Create(cates, tags string) error {
 		}
 	}
 
+	fmt.Println("------------------------")
+	fmt.Println(p)
+	fmt.Println("------------------------")
+
 	// 开始事务
 	s := x.NewSession()
 	defer s.Close()

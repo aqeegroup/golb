@@ -73,7 +73,13 @@ func WritePage(ctx *context.Context) {
 		ctx.Handle(500, "", nil)
 	}
 
+	tags, err := models.FindAllTags()
+	if err != nil {
+		ctx.Handle(500, "", nil)
+	}
+
 	ctx.Data["Cates"] = cates
+	ctx.Data["Tags"] = tags
 
 	ctx.Data["Scripts"] = []string{"admin/js/index.js"}
 
@@ -100,7 +106,14 @@ func PostUpdate(ctx *context.Context) {
 	if err != nil {
 		ctx.Handle(500, "", nil)
 	}
+
+	tags, err := models.FindAllTags()
+	if err != nil {
+		ctx.Handle(500, "", nil)
+	}
+
 	ctx.Data["Cates"] = cates
+	ctx.Data["Tags"] = tags
 
 	ctx.Data["HideSidebar"] = true
 	ctx.Data["Title"] = "文章编辑"

@@ -78,13 +78,9 @@
                   </div>
                   <h5>选择已有标签</h5>
                   <div class="tags-content">
-                    <span class="label">Success <i class="iconfont icon-duigou"></i></span>
-                    <span class="label">sa <i class="iconfont icon-duigou"></i></span>
-                    <span class="label">dsds <i class="iconfont icon-duigou"></i></span>
-                    <span class="label">Success <i class="iconfont icon-duigou"></i></span>
-                    <span class="label">Succasdaddess <i class="iconfont icon-duigou"></i></span>
-                    <span class="label">颠三倒四 <i class="iconfont icon-duigou"></i></span>
-                    <span class="label">丰富的 <i class="iconfont icon-duigou"></i></span>
+                    {{range .Tags}}
+                    <span class="label">{{.Name}} <i class="iconfont icon-duigou"></i></span>
+                    {{end}}
                   </div>
                   <h5>新增标签</h5>
                   <div class="post-tags">

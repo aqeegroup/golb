@@ -23,6 +23,9 @@ func Index(ctx *context.Context) {
 	}
 	ctx.Data["CountCate"] = catesCount
 
+	TagsCount, err := models.TagsCount()
+	ctx.Data["CountTag"] = TagsCount
+
 	ctx.Data["CountComment"] = 132
 	// postCount, err := models.CountComment()
 

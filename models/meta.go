@@ -69,6 +69,13 @@ func FindAllCates() (*[]Meta, error) {
 	return cates, err
 }
 
+// FindAllTags 查询全部标签
+func FindAllTags() (*[]Meta, error) {
+	tags := &[]Meta{}
+	err := x.Where("type=?", "tag").Find(tags)
+	return tags, err
+}
+
 // DeleteMetas 根据 id 删除标签或分类
 func DeleteMetas(ids string) (int64, error) {
 	id := strings.Split(ids, ",")
@@ -105,33 +112,35 @@ func TagNameExist(name string) (bool, error) {
 }
 
 // CreateOrFindTag 查询 tag 或者插入 新增
-func CreateOrFindTag(tagNames []string) ([]Meta, error) {
+func CreateOrFindTag(tagNames []string) ([]*Meta, error) {
 	// 已经有的标签
-	hasTags := []Meta{}
+	hasTags := []*Meta{}
 	err := x.Select("id, name").In("name", tagNames).Find(&hasTags)
+	if err != nil {
+		return nil, err
+	}
 
 	var hasTagNames []string
 	for _, tag := range hasTags {
 		hasTagNames = append(hasTagNames, tag.Name)
 	}
 
-	var noHaveTags []Meta
 	for _, name := range tagNames {
 		if !stringutil.InArray(name, hasTagNames) {
-			tag := Meta{
+			tag := &Meta{
 				Name: name,
 				Slug: name,
 				Type: "tag",
 			}
-			noHaveTags = append(noHaveTags, tag)
+
+			// 这里不采用一次性插入 是为了插入之后能拿到自增 ID
+			if _, err := x.Insert(tag); err != nil {
+				return nil, err
+			}
+
+			hasTags = append(hasTags, tag)
 		}
 	}
-
-	if _, err := x.Insert(noHaveTags); err != nil {
-		return nil, err
-	}
-
-	hasTags = append(hasTags, noHaveTags...)
 
 	return hasTags, err
 }
