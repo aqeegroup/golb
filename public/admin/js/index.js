@@ -143,7 +143,6 @@ $(document).ready(function () {
 
   // 新增分类
   $('#submit-cate').click(function () {
-    $('#cate-title').text('添加分类');
     var modal = $('#add-cate');
     var form = {};
     form.id = modal.find('input[name=id]').val();
@@ -167,15 +166,14 @@ $(document).ready(function () {
 
   // 修改分类
   $('#cates a').click(function () {
-    var modal = $('#add-cate');    
-    $('#cate-title').text('修改分类');
+    var modal = $('#add-cate');
     var cate = $(this).data('cate');
     // console.log(cate);
     modal.find('input[name=id]').val(cate.ID);
     modal.find('input[name=name]').val(cate.Name);
     modal.find('input[name=slug]').val(cate.Slug);
     modal.find('select[name=parent]').val(cate.ParentID);
-    showModal('add-cate');
+    showModal('add-cate', '修改分类');
     return false;
   });
 
@@ -226,7 +224,35 @@ $(document).ready(function () {
       });
     });
   });
-  
+
+  // 选中标签
+  $('.tag-manage li').click(function() {
+    $(this).toggleClass('active');
+  });
+  // 小铅笔点击弹出编辑
+  $('.tag-manage li i').click(function() {
+    var modal = $('#tag-edit');
+    var tag = $(this).data('tag');
+    // console.log(cate);
+    modal.find('input[name=id]').val(tag.ID);
+    modal.find('input[name=name]').val(tag.Name);
+    modal.find('input[name=slug]').val(tag.Slug);
+    showModal('tag-edit', '修改标签');
+    return false;
+  });
+  // 提交标签编辑结果 AND 新建标签
+  $('#submit-tag').click(function() {
+    var modal = $('#tag-edit');
+    var form = {};
+    form.id = modal.find('input[name=id]').val();
+    form.name = modal.find('input[name=name]').val();
+    form.slug = modal.find('input[name=slug]').val();
+    form.parent_id = modal.find('select[name=parent]').val();
+  });
+
+  $('#modal').on('hide.bs.modal', function () {
+    $(this).find("input").val('');
+  });
 
 });
 
@@ -251,12 +277,18 @@ var pop = function (text) {
     fadeOut();
 };
 
-var showModal = function (id) {
-  $('#'+id).show();
+var showModal = function (id, title) {
+  var modal = $('#'+id)
+  title && modal.find('.modal-title').text(title)
+  modal.show();
   $('#modal').modal('show');
 }
 
 var hideModal = function () {
   $(".modal-content").hide();
   $('#modal').modal('hide');
+}
+
+var clear = function () {
+
 }

@@ -2,26 +2,24 @@
 
 <div class="content">
   <div class="container-fluid">
-    <h3>标签管理 <a onclick="showModal('add-cate');" style="cursor: pointer;"> 新增</a></h3>
+    <h3>标签管理 <a onclick="showModal('tag-edit', '新增标签');" style="cursor: pointer;"> 新增</a></h3>
     <div class="btn-group">
       <button id="delete-cate" type="button" class="btn btn-default">删除选中项</button>
     </div>
     <div class="post-manage">
       <div class="row">
-        <div class="col-sm-9">
+        <div class="col-sm-12">
           <div class="tag-manage">
-            {{range .Tags}}
-            {{$rand := RandInt 6}}
+            <!--{{$rand := RandInt 6}}-->
             <!--<span class="label label-danger background-{{$rand}}">{{.Name}}</span>-->
-            <span class="label">{{.Name}} <i class="iconfont icon-qianbi"></i></span>
-            {{end}} 
+            <!--<span class="label">{{.Name}} <i class="iconfont icon-qianbi"></i></span>-->
+            <ul class="clearfix">
+              {{range .Tags}}              
+              <li class="pull-left"><span>{{.Name}} <i class="iconfont icon-qianbi" data-tag="{{JSONEncode .}}"></i></span></li>
+              {{end}}              
+            </ul>
           </div>
         </div>
-        <div class="col-sm-3">
-          <div class="tag-manage">
-          </div>
-        </div>
-          
       </div>
 
     </div>

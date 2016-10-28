@@ -40,7 +40,7 @@ func DeleteCate(ctx *context.Context) {
 		ctx.RespJSON("500", "内部服务错误")
 		return
 	}
-	ctx.RespJSON("200", "删除成功", ctx.URLFor("cate"))
+	ctx.RespJSON("200", "删除成功", ctx.URLFor("cateManage"))
 	return
 }
 
@@ -95,7 +95,7 @@ func CreateOrUpdateCate(ctx *context.Context) {
 	if cate.ID > 0 {
 		msg = "修改分类成功"
 	}
-	ctx.RespJSON("200", msg, ctx.URLFor("cate"))
+	ctx.RespJSON("200", msg, ctx.URLFor("cateManage"))
 	return
 }
 

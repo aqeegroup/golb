@@ -4,8 +4,33 @@
   padding: 20px 20px;
   margin-top: 20px;
 }
+.tag-manage ul {
+  margin: 0;
+  padding: 0;
+}
+.tag-manage ul li {
+  cursor: pointer;
+  margin: 2px;
+  padding: 6px;
+}
+.tag-manage ul li i {
+  visibility: hidden;
+  color: #666;  
+}
+.tag-manage>ul li:hover {
+  background: #eee;
+}
+.tag-manage ul li:hover i {
+  visibility: visible;  
+}
 
-.tag-manage>span {
+.tag-manage ul>.active {
+  background: #fff9e8 !important;
+}
+/*.tag-manage ul:hover>li i {
+  color: #666;    
+}*/
+/*.tag-manage>span {
   background-color: #fff;
   color: #666;
   margin: 6px 2px;
@@ -15,14 +40,14 @@
   padding: .4em .8em;
   position: relative;
   cursor: pointer;
-}
-.tag-manage>span:hover {
+}*/
+/*.tag-manage>span:hover {
   background: #e6e6e6;
 }
-.tag-manage>span:hover + .tag-manage>span>i {
+.tag-manage>span:hover>.tag-manage>span>i {
   color: #eee;  
 }
 .tag-manage>span>i {
   margin-left: 1em;
   color: #fff;
-}
+}*/
