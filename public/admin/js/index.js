@@ -249,6 +249,30 @@ $(document).ready(function () {
     form.slug = modal.find('input[name=slug]').val();
     form.parent_id = modal.find('select[name=parent]').val();
   });
+  // delete-tag
+  $('#delete-tag').click(function() {
+    var checked = [];
+    $('.tag-manage ul .active').each(function () {
+      checked.push($(this).data('id'));
+    });
+    if (checked.length == 0) {
+      pop('请选择要删除的标签');
+      return;
+    }
+    Util.confirm('确认删除选中的标签吗？', function () {
+      console.log(checked);
+      $.post('/admin/tag/del', {ids: checked.join(',')}, function(data) {
+        pop(data.msg);
+        if (data.code == '200') {
+          Util.close();
+          setTimeout(function () {
+            data.redirect && (window.location.href = data.redirect);                              
+          }, 1000);            
+        }
+      });
+    });
+  });
+
 
   $('#modal').on('hide.bs.modal', function () {
     $(this).find("input").val('');

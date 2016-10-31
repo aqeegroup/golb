@@ -23,6 +23,10 @@ func main() {
 	setup()
 	// macaron 框架初始化
 	newMacaron()
+
+	// 初始化路由
+	routesInit()
+
 	m.Run()
 }
 
@@ -30,8 +34,7 @@ func setup() {
 	// 初始化文件配置
 	setting.NewContext()
 
-	err := models.Init()
-	if err != nil {
+	if err := models.Init(); err != nil {
 		panic("数据库初始化失败: " + err.Error())
 	}
 
@@ -68,9 +71,6 @@ func newMacaron() {
 	}))
 
 	m.Use(context.Contexter())
-
-	// 初始化路由
-	routesInit()
 }
 
 // 初始化路由配置

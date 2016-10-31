@@ -89,7 +89,7 @@ func (ctx *Context) Handle(status int, title string, err error) {
 func (ctx *Context) HasTemplate(t string) bool {
 
 	theme := models.Options.Get("theme")
-	tPath := fmt.Sprintf("%s/%s/%s.html", setting.WorkDir(), theme, t)
+	tPath := fmt.Sprintf("%s/%s/%s.tmpl", setting.WorkDir(), theme, t)
 	// fmt.Println(tPath)
 	if utility.FileExist(tPath) {
 		return true

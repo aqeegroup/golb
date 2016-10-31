@@ -4,7 +4,7 @@
   <div class="container-fluid">
     <h3>标签管理 <a onclick="showModal('tag-edit', '新增标签');" style="cursor: pointer;"> 新增</a></h3>
     <div class="btn-group">
-      <button id="delete-cate" type="button" class="btn btn-default">删除选中项</button>
+      <button id="delete-tag" type="button" class="btn btn-default">删除选中项</button>
     </div>
     <div class="post-manage">
       <div class="row">
@@ -15,7 +15,7 @@
             <!--<span class="label">{{.Name}} <i class="iconfont icon-qianbi"></i></span>-->
             <ul class="clearfix">
               {{range .Tags}}              
-              <li class="pull-left"><span>{{.Name}} <i class="iconfont icon-qianbi" data-tag="{{JSONEncode .}}"></i></span></li>
+              <li class="pull-left" data-id="{{.ID}}"><span>{{.Name}} <i class="iconfont icon-qianbi" data-tag="{{JSONEncode .}}"></i></span></li>
               {{end}}              
             </ul>
           </div>
