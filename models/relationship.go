@@ -1,5 +1,7 @@
 package models
 
+import "strings"
+
 // Relationship Post 和 Meta 的关系表
 type Relationship struct {
 	PostID int64 `xorm:"pk"`
@@ -25,4 +27,12 @@ func FindMetasByPostID(id int64) (*[]PostMeta, error) {
 		Find(postMetas)
 
 	return postMetas, err
+}
+
+// DeleteRelationship 删除关系
+func DeleteRelationship(ids string, typ string) (int64, error) {
+	id := strings.Split(ids, ",")
+	cond := typ + "_id"
+
+	return x.In(cond, id).Delete(&Relationship{})
 }

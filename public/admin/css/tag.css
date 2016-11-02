@@ -27,27 +27,3 @@
 .tag-manage ul>.active {
   background: #fff9e8 !important;
 }
-/*.tag-manage ul:hover>li i {
-  color: #666;    
-}*/
-/*.tag-manage>span {
-  background-color: #fff;
-  color: #666;
-  margin: 6px 2px;
-  display: inline-block;
-  border-radius: 1px;
-  font-size: 14px;
-  padding: .4em .8em;
-  position: relative;
-  cursor: pointer;
-}*/
-/*.tag-manage>span:hover {
-  background: #e6e6e6;
-}
-.tag-manage>span:hover>.tag-manage>span>i {
-  color: #eee;  
-}
-.tag-manage>span>i {
-  margin-left: 1em;
-  color: #fff;
-}*/

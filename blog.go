@@ -106,6 +106,8 @@ func routesInit() {
 
 		m.Group("/tag", func() {
 			m.Get("/", admin.Tag).Name("tagManage")
+			m.Post("/", admin.CreateOrUpdateTag).Name("tagCreateOrUpdate")
+			m.Post("/del", admin.DeleteTag).Name("tagDel")
 		}, admin.CheckLogin)
 
 	})

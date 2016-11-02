@@ -169,6 +169,9 @@ func PostDelete(ctx *context.Context) {
 		return
 	}
 
+	// 删除关系表中的相关记录
+	models.DeleteRelationship(ids, "post")
+
 	ctx.RespJSON("200", "删除文章成功", ctx.URLFor("postManage"))
 	return
 }

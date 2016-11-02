@@ -247,7 +247,17 @@ $(document).ready(function () {
     form.id = modal.find('input[name=id]').val();
     form.name = modal.find('input[name=name]').val();
     form.slug = modal.find('input[name=slug]').val();
-    form.parent_id = modal.find('select[name=parent]').val();
+    // console.log(form);
+    $.post('/admin/tag', form, function(data) {
+      pop(data.msg);
+      if (data.code == '200') {
+        Util.close();
+        setTimeout(function () {
+          data.redirect && (window.location.href = data.redirect);                              
+        }, 1000);            
+      }
+    });
+
   });
   // delete-tag
   $('#delete-tag').click(function() {

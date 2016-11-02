@@ -40,6 +40,10 @@ func DeleteCate(ctx *context.Context) {
 		ctx.RespJSON("500", "内部服务错误")
 		return
 	}
+
+	// 删除关系表里的相关记录
+	models.DeleteRelationship(ids, "meta")
+
 	ctx.RespJSON("200", "删除成功", ctx.URLFor("cateManage"))
 	return
 }
@@ -52,7 +56,8 @@ func UpdateCate(ctx *context.Context) {
 // CreateOrUpdateCate 创建或者更新分类
 func CreateOrUpdateCate(ctx *context.Context) {
 	cate := &models.Meta{}
-	cate.ID = ctx.PostInt64("id")
+	id := ctx.PostInt64("id")
+	cate.ID = id
 	cate.Name = ctx.PostString("name")
 	cate.Slug = ctx.PostString("slug", cate.Name)
 	cate.ParentID = ctx.PostInt64("parent_id")
@@ -63,7 +68,7 @@ func CreateOrUpdateCate(ctx *context.Context) {
 		return
 	}
 
-	exist, err := cate.CateNameExist()
+	exist, err := cate.NameExist("category")
 	log.Println(exist, err)
 	if err != nil {
 		ctx.RespJSON("500", "内部服务错误")
@@ -73,7 +78,7 @@ func CreateOrUpdateCate(ctx *context.Context) {
 		ctx.RespJSON("401", "分类名已存在")
 		return
 	}
-	exist, err = cate.CateSlugExist()
+	exist, err = cate.SlugExist("category")
 	if err != nil {
 		ctx.RespJSON("500", "内部服务错误")
 		return
@@ -92,7 +97,7 @@ func CreateOrUpdateCate(ctx *context.Context) {
 	}
 
 	msg := "添加分类成功"
-	if cate.ID > 0 {
+	if id > 0 {
 		msg = "修改分类成功"
 	}
 	ctx.RespJSON("200", msg, ctx.URLFor("cateManage"))

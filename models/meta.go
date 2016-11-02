@@ -33,10 +33,10 @@ func (m *Meta) CreateOrUpdate() error {
 	return err
 }
 
-// CateNameExist 判断分类 name 是否已经存在
-func (m *Meta) CateNameExist() (bool, error) {
+// NameExist 判断分类 name 是否已经存在
+func (m *Meta) NameExist(typ string) (bool, error) {
 
-	s := x.Where("type=?", "category").And("name=?", m.Name)
+	s := x.Where("type=?", typ).And("name=?", m.Name)
 	if m.ID > 0 {
 		s.And("id<>?", m.ID)
 	}
@@ -48,9 +48,9 @@ func (m *Meta) CateNameExist() (bool, error) {
 	return count > 0, nil
 }
 
-// CateSlugExist 判断分类 slug 是否已经存在
-func (m *Meta) CateSlugExist() (bool, error) {
-	s := x.Where("type=?", "category").And("slug=?", m.Slug)
+// SlugExist 判断分类 slug 是否已经存在
+func (m *Meta) SlugExist(typ string) (bool, error) {
+	s := x.Where("type=?", typ).And("slug=?", m.Slug)
 	if m.ID > 0 {
 		s.Where("id<>?", m.ID)
 	}
@@ -65,14 +65,14 @@ func (m *Meta) CateSlugExist() (bool, error) {
 // FindAllCates 查询全部分类
 func FindAllCates() (*[]Meta, error) {
 	cates := &[]Meta{}
-	err := x.Where("type=?", "category").Find(cates)
+	err := x.Where("type=?", "category").Desc("id").Find(cates)
 	return cates, err
 }
 
 // FindAllTags 查询全部标签
 func FindAllTags() (*[]Meta, error) {
 	tags := &[]Meta{}
-	err := x.Where("type=?", "tag").Find(tags)
+	err := x.Where("type=?", "tag").Desc("id").Find(tags)
 	return tags, err
 }
 
